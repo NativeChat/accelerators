@@ -1,0 +1,224 @@
+{
+    "entity-definitions": [
+        {
+            "data": [
+                {
+                    "answers": [
+                        "Any time :)",
+                        "Just doing my job!",
+                        "You're welcome :)"
+                    ],
+                    "expressions": [
+                        "I appreciate that",
+                        "nice, thank you",
+                        "thank you",
+                        "thanks",
+                        "thnaks"
+                    ],
+                    "value": "thanks"
+                },
+                {
+                    "answers": [
+                        "Bye!",
+                        "Good bye!",
+                        "See you!"
+                    ],
+                    "expressions": [
+                        "adieu",
+                        "adios",
+                        "au revoir",
+                        "bye",
+                        "cia",
+                        "cya l8er",
+                        "cya",
+                        "good night",
+                        "goodbye",
+                        "hasta la vista",
+                        "have a good day",
+                        "ok, bye",
+                        "see you",
+                        "tciao"
+                    ],
+                    "value": "goodbye"
+                }
+            ],
+            "lookup-strategy": "QnA",
+            "name": "SmallTalk"
+        },
+        {
+            "data": [
+                {
+                    "expressions": [
+                        "Can we reset the conversation?",
+                        "Can we start over?",
+                        "Forget about it, reset",
+                        "Forget, restart",
+                        "I want to reset the conversation",
+                        "I want to start again",
+                        "It is possible to restart the conversation?",
+                        "Let's restart",
+                        "Please reboot",
+                        "Reboot the flow",
+                        "can we start again?",
+                        "let's do it again",
+                        "reset conversation",
+                        "reset",
+                        "restart conversation",
+                        "restart",
+                        "restart, plase",
+                        "start again"
+                    ],
+                    "value": "restart"
+                },
+                {
+                    "expressions": [
+                        "Can you help me?",
+                        "Commands",
+                        "Help me, please.",
+                        "Help",
+                        "I need some help!",
+                        "give me help",
+                        "list help",
+                        "menu",
+                        "show help"
+                    ],
+                    "value": "help"
+                }
+            ],
+            "lookup-strategy": "trait",
+            "name": "Conversation"
+        },
+        {
+            "data": [
+                {
+                    "metadata": {
+                        "Deutsch": "Friseur",
+                        "English": "Hairdresser",
+                        "Française": "coiffeur"
+                    },
+                    "synonyms": [
+                        "Friseur",
+                        "coiffeur"
+                    ],
+                    "value": "Hairdresser"
+                },
+                {
+                    "metadata": {
+                        "Deutsch": "Kosmetiker",
+                        "English": "cosmetologist",
+                        "Française": "cosmétologue"
+                    },
+                    "synonyms": [
+                        "Kosmetiker",
+                        "cosmétologue"
+                    ],
+                    "value": "cosmetologist"
+                },
+                {
+                    "metadata": {
+                        "Deutsch": "Nagel-Techniker",
+                        "English": "nail technician",
+                        "Française": "ongles"
+                    },
+                    "synonyms": [
+                        "Nagel-Techniker",
+                        "ongles",
+                        "technicien de l'ongle"
+                    ],
+                    "value": "nail technician"
+                }
+            ],
+            "lookup-strategy": "keywords",
+            "name": "Specialist"
+        },
+        {
+            "data": [
+                {
+                    "metadata": {
+                        "appointment": true
+                    },
+                    "synonyms": [
+                        "Planifier un rendez-vous",
+                        "Termin vereinbaren"
+                    ],
+                    "value": "Schedule appointment"
+                }
+            ],
+            "lookup-strategy": "keywords",
+            "name": "Intent"
+        },
+        {
+            "data": [
+                {
+                    "metadata": {
+                        "confirmMessage": "Est-ce correct?",
+                        "dateDisplay": {
+                            "title": "Choisissez la date"
+                        },
+                        "dateMessage": "OK, encore une chose, quelle date?",
+                        "finalMessage": "Super, tout est prêt. Vous avez un rendez-vous.",
+                        "helpMessage": "Voici ce que je peux faire pour vous:",
+                        "helpQuickReply": "Planifier un rendez-vous",
+                        "specialistMessage": "Bon, nous prendrons rendez-vous.</newline>Quel spécialiste avez-vous en tête?",
+                        "specialistQuickReply": [
+                            "coiffeur",
+                            "cosmétologue",
+                            "ongles"
+                        ]
+                    },
+                    "synonyms": [
+                        "francais",
+                        "francaise",
+                        "français",
+                        "french"
+                    ],
+                    "value": "Française"
+                },
+                {
+                    "metadata": {
+                        "confirmMessage": "Is this correct?",
+                        "dateDisplay": {
+                            "title": "Choose date"
+                        },
+                        "dateMessage": "Okay, one more thing, which date?",
+                        "finalMessage": "Great, all set. You have an appointment.",
+                        "helpMessage": "This is what I can do for you:",
+                        "helpQuickReply": "Schedule appointment",
+                        "specialistMessage": "Right, we'll book an appointment.</newline>Which specialist do you have in mind?",
+                        "specialistQuickReply": [
+                            "cosmetologist",
+                            "hairdresser",
+                            "nail technician"
+                        ]
+                    },
+                    "synonyms": [],
+                    "value": "English"
+                },
+                {
+                    "metadata": {
+                        "confirmMessage": "Ist das richtig?",
+                        "dateDisplay": {
+                            "title": "Datum auswählen"
+                        },
+                        "dateMessage": "Noch eine Sache, welches Datum?",
+                        "finalMessage": "Großartig, alles klar. Sie haben einen Termin.",
+                        "helpMessage": "Was kann ich für Sie tun:",
+                        "helpQuickReply": "Termin vereinbaren",
+                        "specialistMessage": "Richtig, wir buchen einen Termin.</newline>Welchen Spezialisten haben Sie im Sinn?",
+                        "specialistQuickReply": [
+                            "Friseur",
+                            "Kosmetiker",
+                            "Nagel-Techniker"
+                        ]
+                    },
+                    "synonyms": [
+                        "German"
+                    ],
+                    "value": "Deutsch"
+                }
+            ],
+            "lookup-strategy": "keywords",
+            "name": "Language"
+        }
+    ]
+}

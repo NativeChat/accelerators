@@ -1,0 +1,153 @@
+{
+    "conversations": {
+        "appointment": {
+            "type": "goal",
+            "steps": [
+                {
+                    "entity-display": "{{ lookup specialist language }}",
+                    "type": "question",
+                    "entity": "specialist",
+                    "entity-type": "Specialist",
+                    "messages": [
+                        "{{language.specialistMessage}}"
+                    ],
+                    "display": {
+                        "type": "quick-reply",
+                        "data": [
+                            "{{language.specialistQuickReply.[0]}}",
+                            "{{language.specialistQuickReply.[1]}}",
+                            "{{language.specialistQuickReply.[2]}}"
+                        ]
+                    }
+                },
+                {
+                    "type": "question",
+                    "entity": "date",
+                    "entity-type": "Date",
+                    "messages": [
+                        "{{language.dateMessage}}"
+                    ],
+                    "display": {
+                        "type": "date-picker",
+                        "title": "{{language.dateDisplay.title}}"
+                    }
+                },
+                {
+                    "type": "entities-confirmation",
+                    "entity": "confirm",
+                    "entities": [
+                        "specialist",
+                        "date"
+                    ],
+                    "messages": [
+                        "{{language.confirmMessage}}"
+                    ]
+                },
+                {
+                    "conditions": [
+                        "{{ confirm }}"
+                    ],
+                    "type": "message",
+                    "messages": [
+                        "{{language.finalMessage}}"
+                    ]
+                }
+            ]
+        },
+        "welcome": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "message",
+                    "messages": [
+                        "This is a welcome conversation for your chatbot."
+                    ]
+                },
+                {
+                    "type": "conversation",
+                    "conversation": "help",
+                    "conditions": [
+                        "{{$not ($has conversation) }}"
+                    ]
+                }
+            ]
+        },
+        "help": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "question",
+                    "entity": "language",
+                    "entity-type": "Language",
+                    "messages": [
+                        [
+                            "If you get stuck, you can always restart our conversation by typing 'restart'",
+                            "Choose your language"
+                        ]
+                    ],
+                    "display": {
+                        "type": "quick-reply"
+                    }
+                },
+                {
+                    "type": "question",
+                    "entity": "intent",
+                    "entity-type": "Intent",
+                    "messages": [
+                        "{{language.helpMessage}}"
+                    ],
+                    "display": {
+                        "type": "quick-reply",
+                        "data": [
+                            "{{language.helpQuickReply}}"
+                        ]
+                    }
+                },
+                {
+                    "conditions": [
+                        "{{ intent.appointment }}"
+                    ],
+                    "type": "command",
+                    "command": "go-to appointment"
+                }
+            ]
+        },
+        "restart": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "message",
+                    "messages": [
+                        "Your conversation is restarted."
+                    ]
+                },
+                {
+                    "type": "conversation",
+                    "conversation": "welcome"
+                }
+            ]
+        }
+    },
+    "settings": {
+        "invalid-replies": [
+            "I am not sure I understood what you said."
+        ],
+        "general-failure": [
+            "We are experiencing technical difficulties at this moment."
+        ],
+        "previous-conversation-messages": [
+            "I am going back to the {{ conversationDisplayName }} now."
+        ]
+    },
+    "commands": {
+        "NEXT-PAGE": [
+            "Next 5"
+        ],
+        "PREVIOUS-PAGE": [
+            "Previous 5"
+        ],
+        "RESTART": [
+            "restart"
+        ]
+    }
+}
