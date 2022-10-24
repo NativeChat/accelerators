@@ -1,0 +1,127 @@
+{
+    "entity-definitions": [
+        {
+            "data": [
+                {
+                    "answers": [
+                        "Any time :)",
+                        "Just doing my job!",
+                        "You're welcome :)"
+                    ],
+                    "expressions": [
+                        "I appreciate that",
+                        "nice, thank you",
+                        "thank you",
+                        "thanks",
+                        "thnaks"
+                    ],
+                    "value": "thanks"
+                },
+                {
+                    "answers": [
+                        "Bye!",
+                        "Good bye!",
+                        "See you!"
+                    ],
+                    "expressions": [
+                        "adieu",
+                        "adios",
+                        "au revoir",
+                        "bye",
+                        "cia",
+                        "cya l8er",
+                        "cya",
+                        "good night",
+                        "goodbye",
+                        "hasta la vista",
+                        "have a good day",
+                        "ok, bye",
+                        "see you",
+                        "tciao"
+                    ],
+                    "value": "goodbye"
+                }
+            ],
+            "lookup-strategy": "QnA",
+            "name": "SmallTalk"
+        },
+        {
+            "data": [
+                {
+                    "answers": [
+                        "This is the number you use for login into ACME online banking. If you are not sure make a quick call on +1-345-12345 for assistance."
+                    ],
+                    "expressions": [
+                        "How do I find my customer number?",
+                        "What is my customer number?",
+                        "What is that number?",
+                        "Where can I find my customer number?",
+                        "Where do I find my customer number?"
+                    ],
+                    "ssmlAnswers": [],
+                    "value": "customer-number"
+                }
+            ],
+            "lookup-strategy": "QnA",
+            "name": "Hardship"
+        },
+        {
+            "data": [
+                {
+                    "expressions": [
+                        "Can we reset the conversation?",
+                        "Can we start over?",
+                        "Forget about it, reset",
+                        "Forget, restart",
+                        "I want to reset the conversation",
+                        "I want to start again",
+                        "It is possible to restart the conversation?",
+                        "Let's restart",
+                        "Please reboot",
+                        "Reboot the flow",
+                        "can we start again?",
+                        "let's do it again",
+                        "reset conversation",
+                        "reset",
+                        "restart conversation",
+                        "restart",
+                        "restart, plase",
+                        "start again"
+                    ],
+                    "value": "restart"
+                },
+                {
+                    "expressions": [
+                        "Can you help me?",
+                        "Commands",
+                        "Help me, please.",
+                        "Help",
+                        "I need some help!",
+                        "give me help",
+                        "list help",
+                        "menu",
+                        "show help"
+                    ],
+                    "value": "help"
+                },
+                {
+                    "expressions": [
+                        "Contact human agent",
+                        "Contact human"
+                    ],
+                    "metadata": {},
+                    "value": "contactOperator"
+                },
+                {
+                    "expressions": [
+                        "hardship assistance"
+                    ],
+                    "metadata": {},
+                    "value": "hardship"
+                }
+            ],
+            "lookup-strategy": "trait",
+            "name": "Conversation"
+        }
+    ]
+}
