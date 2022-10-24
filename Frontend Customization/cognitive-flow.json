@@ -1,0 +1,109 @@
+{
+    "conversations": {
+        "welcome": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "message",
+                    "messages": [
+                        [
+                            "Hello I'm the Progress NativeChat Rich Text Accelerator chatbot."
+                        ]
+                    ]
+                },
+                {
+                    "type": "conversation",
+                    "conversation": "help",
+                    "conditions": [
+                        "{{$not ($has conversation) }}"
+                    ]
+                }
+            ]
+        },
+        "help": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "question",
+                    "entity": "displayExamples",
+                    "entity-type": "Text",
+                    "messages": [
+                        "Do you want me to demonstrate some of the rich text options supported by the NativeChat platform?"
+                    ],
+                    "display": {
+                        "type": "quick-reply",
+                        "data": [
+                            "Yes",
+                            "No"
+                        ]
+                    }
+                },
+                {
+                    "type": "message",
+                    "conditions": [
+                        "{{ $not ($eq displayExamples 'No') }}"
+                    ],
+                    "messages": [
+                        [
+                            "The web widget supports both Markdown and HTML",
+                            "Here is some of the supported rich text functionality:",
+                            "_italic text_",
+                            "**bold text**",
+                            "~~strikethrough text~~",
+                            "`code`",
+                            "typographic symbols (c) (C) (r) (R) (tm) (TM) (p) (P) +-",
+                            "HTML embedded images <img src='https://octodex.github.com/images/stormtroopocat.jpg' alt='The Stormtroopocat' title='The Stormtroopocat' height='40px'/>",
+                            "emojis 🙂 👍",
+                            "For full list of supported rich text functionality read our <a target='_blank' href='https://docs.nativechat.com/docs/1.0/cognitive-flow/formatting.html#displaying-rich-text'>documentation <img src='https://raw.githubusercontent.com/NativeChat/tmp-resources-test/main/resources/Frontend%20Customization/new-tab-icon.svg' width='4%' height='4%' /></a>"
+                        ]
+                    ]
+                },
+                {
+                    "type": "message",
+                    "messages": [
+                        [
+                            "If you get stuck, you can always restart our conversation by typing 'restart'"
+                        ]
+                    ]
+                }
+            ]
+        },
+        "restart": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "message",
+                    "messages": [
+                        "Your conversation is restarted."
+                    ]
+                },
+                {
+                    "type": "conversation",
+                    "conversation": "welcome"
+                }
+            ]
+        }
+    },
+    "settings": {
+        "invalid-replies": [
+            "I am not sure I understood what you said."
+        ],
+        "general-failure": [
+            "We are experiencing technical difficulties at this moment."
+        ],
+        "previous-conversation-messages": [
+            "I am going back to the {{ conversationDisplayName }} now."
+        ]
+    },
+    "commands": {
+        "NEXT-PAGE": [
+            "Next 5"
+        ],
+        "PREVIOUS-PAGE": [
+            "Previous 5"
+        ],
+        "RESTART": [
+            "restart"
+        ]
+    }
+}
