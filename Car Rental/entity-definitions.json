@@ -1,0 +1,192 @@
+{
+    "entity-definitions": [
+        {
+            "data": [],
+            "dynamic-data": {
+                "data-source": {
+                    "endpoint": "https://api.demo.nativechat.com/v1/car-rental/cars",
+                    "headers": {
+                        "Authorization": "Basic ZGVtby11c2VyOmRlbW8tcGFzc3dvcmQ="
+                    },
+                    "method": "GET",
+                    "payload": {},
+                    "selector": ""
+                },
+                "synonym-templates": [
+                    "{{short-name}}"
+                ],
+                "value-template": "{{name}}"
+            },
+            "lookup-strategy": "keywords",
+            "name": "Car"
+        },
+        {
+            "data": [],
+            "dynamic-data": {
+                "data-source": {
+                    "endpoint": "https://api.demo.nativechat.com/v1/car-rental/offices",
+                    "headers": {
+                        "Authorization": "Basic ZGVtby11c2VyOmRlbW8tcGFzc3dvcmQ="
+                    },
+                    "method": "GET",
+                    "payload": {},
+                    "selector": ""
+                },
+                "synonym-templates": [
+                    " {{localName}}"
+                ],
+                "value-template": "{{name}}"
+            },
+            "lookup-strategy": "keywords",
+            "name": "City"
+        },
+        {
+            "data": [
+                {
+                    "answers": [
+                        "Any time :)",
+                        "Just doing my job!",
+                        "You're welcome :)"
+                    ],
+                    "expressions": [
+                        "I appreciate that",
+                        "nice, thank you",
+                        "thank you",
+                        "thanks",
+                        "thnaks"
+                    ],
+                    "value": "thanks"
+                },
+                {
+                    "answers": [
+                        "Bye!",
+                        "Good bye!",
+                        "See you!"
+                    ],
+                    "expressions": [
+                        "adieu",
+                        "adios",
+                        "au revoir",
+                        "bye",
+                        "cia",
+                        "cya l8er",
+                        "cya",
+                        "good night",
+                        "goodbye",
+                        "hasta la vista",
+                        "have a good day",
+                        "ok, bye",
+                        "see you",
+                        "tciao"
+                    ],
+                    "value": "goodbye"
+                }
+            ],
+            "lookup-strategy": "QnA",
+            "name": "SmallTalk"
+        },
+        {
+            "data": [
+                {
+                    "expressions": [
+                        "Can we reset the conversation?",
+                        "Can we start over?",
+                        "Forget about it, reset",
+                        "Forget, restart",
+                        "I want to reset the conversation",
+                        "I want to start again",
+                        "It is possible to restart the conversation?",
+                        "Let's restart",
+                        "Please reboot",
+                        "Reboot the flow",
+                        "can we start again?",
+                        "let's do it again",
+                        "reset conversation",
+                        "reset",
+                        "restart conversation",
+                        "restart",
+                        "restart, plase",
+                        "start again"
+                    ],
+                    "value": "restart"
+                },
+                {
+                    "expressions": [
+                        "Can you help me?",
+                        "Commands",
+                        "Help me, please.",
+                        "Help",
+                        "I need some help!",
+                        "give me help",
+                        "list help",
+                        "menu",
+                        "show help"
+                    ],
+                    "value": "help"
+                },
+                {
+                    "expressions": [
+                        "Can you pick up the car?",
+                        "I dropped off the car",
+                        "The car is ready for pickup",
+                        "drop off location"
+                    ],
+                    "metadata": {},
+                    "value": "drop-off-location"
+                },
+                {
+                    "expressions": [
+                        "Do you have a car in?",
+                        "I want a car in",
+                        "I want to rent a car"
+                    ],
+                    "value": "rent-car"
+                },
+                {
+                    "expressions": [
+                        "How does it look outside?",
+                        "What is the weather like?"
+                    ],
+                    "value": "what-weather"
+                }
+            ],
+            "lookup-strategy": "trait",
+            "name": "Conversation"
+        },
+        {
+            "data": [
+                {
+                    "synonyms": [
+                        "Deutschland"
+                    ],
+                    "value": "Germany"
+                },
+                {
+                    "synonyms": [
+                        "Italia"
+                    ],
+                    "value": "Italy"
+                },
+                {
+                    "synonyms": [
+                        "Polska"
+                    ],
+                    "value": "Poland"
+                },
+                {
+                    "synonyms": [],
+                    "value": "France"
+                }
+            ],
+            "lookup-strategy": "keywords",
+            "name": "Country"
+        },
+        {
+            "data": {
+                "pattern": "[A-Za-z]{3}[0-9]{4}[A-Za-z]{2}"
+            },
+            "lookup-strategy": "regex",
+            "name": "DrivingLicenseNumber"
+        }
+    ]
+}
