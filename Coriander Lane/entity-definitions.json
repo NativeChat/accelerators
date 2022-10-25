@@ -1,0 +1,700 @@
+{
+    "entity-definitions": [
+        {
+            "data": [
+                {
+                    "answers": [
+                        "Any time :)",
+                        "Just doing my job!",
+                        "You're welcome :)"
+                    ],
+                    "expressions": [
+                        "I appreciate that",
+                        "nice, thank you",
+                        "thank you",
+                        "thanks",
+                        "thnaks"
+                    ],
+                    "value": "thanks"
+                },
+                {
+                    "answers": [
+                        "Bye!",
+                        "Good bye!",
+                        "See you!"
+                    ],
+                    "expressions": [
+                        "adieu",
+                        "adios",
+                        "au revoir",
+                        "bye",
+                        "cia",
+                        "cya l8er",
+                        "cya",
+                        "good night",
+                        "goodbye",
+                        "hasta la vista",
+                        "have a good day",
+                        "ok, bye",
+                        "see you",
+                        "tciao"
+                    ],
+                    "value": "goodbye"
+                }
+            ],
+            "lookup-strategy": "QnA",
+            "name": "SmallTalk"
+        },
+        {
+            "data": [
+                {
+                    "expressions": [
+                        "By City",
+                        "Do you have any restaurants in San Francisco?",
+                        "I want to find a restaurant in Austin",
+                        "Show me your restaurants in Chicago",
+                        "by city"
+                    ],
+                    "metadata": {},
+                    "value": "byCity"
+                },
+                {
+                    "expressions": [
+                        "Can we reset the conversation?",
+                        "Can we start over?",
+                        "Forget about it, reset",
+                        "Forget, restart",
+                        "I want to reset the conversation",
+                        "I want to start again",
+                        "It is possible to restart the conversation?",
+                        "Let's restart",
+                        "Please reboot",
+                        "Reboot the flow",
+                        "can we start again?",
+                        "let's do it again",
+                        "reset conversation",
+                        "reset",
+                        "restart conversation",
+                        "restart",
+                        "restart, plase",
+                        "start again"
+                    ],
+                    "value": "restart"
+                },
+                {
+                    "expressions": [
+                        "Can you help me?",
+                        "Commands",
+                        "Help me, please.",
+                        "Help",
+                        "I need some help!",
+                        "give me help",
+                        "list help",
+                        "menu",
+                        "show help"
+                    ],
+                    "value": "help"
+                },
+                {
+                    "expressions": [
+                        "Find nearby restaurants",
+                        "Find restaurants near me",
+                        "Show me nearby restaurants",
+                        "near by",
+                        "nearby"
+                    ],
+                    "metadata": {},
+                    "value": "nearBy"
+                }
+            ],
+            "lookup-strategy": "trait",
+            "name": "Conversation"
+        },
+        {
+            "data": [
+                {
+                    "metadata": {
+                        "AdditionalHours": "",
+                        "Address": {
+                            "City": "Austin",
+                            "CountryCode": "US",
+                            "Id": "0d03b310-3b43-61b8-b268-ff0100512f84",
+                            "Latitude": 30.2641972,
+                            "Longitude": -97.7378017,
+                            "MapZoomLevel": 8,
+                            "StateCode": "TX",
+                            "Street": "1100 Congress Ave",
+                            "Zip": "78701"
+                        },
+                        "Amenities": [
+                            {
+                                "PersistedValue": "calendar",
+                                "Text": "Meeting Facilities"
+                            },
+                            {
+                                "PersistedValue": "car",
+                                "Text": "Drive Thru"
+                            }
+                        ],
+                        "DefaultUrl": "https://corianderlane.sitefinity.cloud/north-america/locations/austin-tx",
+                        "Hours": "1pm-11pm M-SU",
+                        "Images": [
+                            {
+                                "EmbedUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_003.jpg?sfvrsn=6cb6416e_7",
+                                "MediaUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_003.jpg?sfvrsn=6cb6416e_7",
+                                "ThumbnailUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_003.tmb-.jpg?sfvrsn=6cb6416e_7",
+                                "Title": [
+                                    "Meeting Facilities"
+                                ]
+                            },
+                            {
+                                "EmbedUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_008.jpg?sfvrsn=ebf02ec0_5",
+                                "MediaUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_008.jpg?sfvrsn=ebf02ec0_5",
+                                "ThumbnailUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_008.tmb-.jpg?sfvrsn=ebf02ec0_5",
+                                "Title": [
+                                    "Dining Room"
+                                ]
+                            }
+                        ],
+                        "Title": "Austin, TX",
+                        "UrlName": "austin-tx"
+                    },
+                    "synonyms": [
+                        "Austin"
+                    ],
+                    "value": "Austin, TX"
+                },
+                {
+                    "metadata": {
+                        "AdditionalHours": "",
+                        "Address": {
+                            "City": "Niagara Falls",
+                            "CountryCode": "CA",
+                            "Id": "0b03b310-3b43-61b8-b268-ff0100512f84",
+                            "Latitude": 43.0908047,
+                            "Longitude": -79.0730234,
+                            "MapZoomLevel": 10,
+                            "StateCode": "ON",
+                            "Street": "5875 Falls Ave.",
+                            "Zip": "2G 3K7L"
+                        },
+                        "Amenities": [
+                            {
+                                "PersistedValue": "calendar",
+                                "Text": "Meeting Facilities"
+                            },
+                            {
+                                "PersistedValue": "car",
+                                "Text": "Drive Thru"
+                            },
+                            {
+                                "PersistedValue": "wifi",
+                                "Text": "Wifi"
+                            }
+                        ],
+                        "DefaultUrl": "https://corianderlane.sitefinity.cloud/north-america/locations/niagara-falls-on",
+                        "Hours": "11am-11pm M-SU",
+                        "Images": [
+                            {
+                                "EmbedUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_001.jpg?sfvrsn=a5793f6_7",
+                                "MediaUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_001.jpg?sfvrsn=a5793f6_7",
+                                "ThumbnailUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_001.tmb-.jpg?sfvrsn=a5793f6_7",
+                                "Title": [
+                                    "Dining Room"
+                                ]
+                            },
+                            {
+                                "EmbedUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_002.jpg?sfvrsn=f0f04b8_5",
+                                "MediaUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_002.jpg?sfvrsn=f0f04b8_5",
+                                "ThumbnailUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_002.tmb-.jpg?sfvrsn=f0f04b8_5",
+                                "Title": [
+                                    "Lounge"
+                                ]
+                            }
+                        ],
+                        "Title": "Niagara Falls, ON",
+                        "UrlName": "niagara-falls-on"
+                    },
+                    "synonyms": [
+                        "Niagara Falls"
+                    ],
+                    "value": "Niagara Falls, ON"
+                },
+                {
+                    "metadata": {
+                        "AdditionalHours": "",
+                        "Address": {
+                            "City": "San Francisco",
+                            "CountryCode": "US",
+                            "Id": "1303b310-3b43-61b8-b268-ff0100512f84",
+                            "Latitude": 37.8079996,
+                            "Longitude": -122.4177434,
+                            "MapZoomLevel": 4,
+                            "StateCode": "CA",
+                            "Street": "286 Jefferson St.",
+                            "Zip": "94133"
+                        },
+                        "Amenities": [
+                            {
+                                "PersistedValue": "calendar",
+                                "Text": "Meeting Facilities"
+                            },
+                            {
+                                "PersistedValue": "wifi",
+                                "Text": "Wifi"
+                            }
+                        ],
+                        "DefaultUrl": "https://corianderlane.sitefinity.cloud/north-america/locations/san-francisco-ca",
+                        "Hours": "11am-11pm T-SU",
+                        "Images": [
+                            {
+                                "EmbedUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_009.jpg?sfvrsn=63d55481_7",
+                                "MediaUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_009.jpg?sfvrsn=63d55481_7",
+                                "ThumbnailUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_009.tmb-.jpg?sfvrsn=63d55481_7",
+                                "Title": [
+                                    "Dining Room"
+                                ]
+                            },
+                            {
+                                "EmbedUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_014.jpg?sfvrsn=92318274_5",
+                                "MediaUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_014.jpg?sfvrsn=92318274_5",
+                                "ThumbnailUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_014.tmb-.jpg?sfvrsn=92318274_5",
+                                "Title": [
+                                    "Patio Dining"
+                                ]
+                            }
+                        ],
+                        "Title": "San Francisco, CA",
+                        "UrlName": "san-francisco-ca"
+                    },
+                    "synonyms": [
+                        "San Francisco"
+                    ],
+                    "value": "San Francisco, CA"
+                },
+                {
+                    "metadata": {
+                        "AdditionalHours": "",
+                        "Address": {
+                            "City": "Toledo",
+                            "CountryCode": "US",
+                            "Id": "0503b310-3b43-61b8-b268-ff0100512f84",
+                            "Latitude": 41.6528052,
+                            "Longitude": -83.5378674,
+                            "MapZoomLevel": 10,
+                            "StateCode": "OH",
+                            "Street": "123 N. Erie St.",
+                            "Zip": "43460"
+                        },
+                        "Amenities": [
+                            {
+                                "PersistedValue": "calendar",
+                                "Text": "Meeting Facilities"
+                            },
+                            {
+                                "PersistedValue": "car",
+                                "Text": "Drive Thru"
+                            },
+                            {
+                                "PersistedValue": "wifi",
+                                "Text": "Wifi"
+                            }
+                        ],
+                        "DefaultUrl": "https://corianderlane.sitefinity.cloud/north-america/locations/toledo-oh",
+                        "Hours": "11am-9pm M-SU",
+                        "Images": [
+                            {
+                                "EmbedUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_009.jpg?sfvrsn=63d55481_7",
+                                "MediaUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_009.jpg?sfvrsn=63d55481_7",
+                                "ThumbnailUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_009.tmb-.jpg?sfvrsn=63d55481_7",
+                                "Title": [
+                                    "Dining Room"
+                                ]
+                            },
+                            {
+                                "EmbedUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_012.jpg?sfvrsn=e32b67e8_5",
+                                "MediaUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_012.jpg?sfvrsn=e32b67e8_5",
+                                "ThumbnailUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_012.tmb-.jpg?sfvrsn=e32b67e8_5",
+                                "Title": [
+                                    "Waitstaff"
+                                ]
+                            }
+                        ],
+                        "Title": "Toledo, OH",
+                        "UrlName": "toledo-oh"
+                    },
+                    "synonyms": [
+                        "Toledo"
+                    ],
+                    "value": "Toledo, OH"
+                },
+                {
+                    "metadata": {
+                        "AdditionalHours": "10am-11pm S-SU",
+                        "Address": {
+                            "City": "Fort Wayne",
+                            "CountryCode": "US",
+                            "Id": "fb02b310-3b43-61b8-b268-ff0100512f84",
+                            "Latitude": 41.0795424,
+                            "Longitude": -85.1392296,
+                            "MapZoomLevel": 12,
+                            "StateCode": "IN",
+                            "Street": "715 S Calhoun St.",
+                            "Zip": "46802"
+                        },
+                        "Amenities": [
+                            {
+                                "PersistedValue": "calendar",
+                                "Text": "Meeting Facilities"
+                            },
+                            {
+                                "PersistedValue": "car",
+                                "Text": "Drive Thru"
+                            },
+                            {
+                                "PersistedValue": "wifi",
+                                "Text": "Wifi"
+                            }
+                        ],
+                        "DefaultUrl": "https://corianderlane.sitefinity.cloud/north-america/locations/fort-wayne-indiana",
+                        "Hours": "11am-9pm M-F",
+                        "Images": [
+                            {
+                                "EmbedUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_004.jpg?sfvrsn=42c9b3cb_5",
+                                "MediaUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_004.jpg?sfvrsn=42c9b3cb_5",
+                                "ThumbnailUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_004.tmb-.jpg?sfvrsn=42c9b3cb_5",
+                                "Title": [
+                                    "Entrance"
+                                ]
+                            },
+                            {
+                                "EmbedUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_007.jpg?sfvrsn=7db4a4a9_5",
+                                "MediaUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_007.jpg?sfvrsn=7db4a4a9_5",
+                                "ThumbnailUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_007.tmb-.jpg?sfvrsn=7db4a4a9_5",
+                                "Title": [
+                                    "Owners"
+                                ]
+                            }
+                        ],
+                        "Title": "Fort Wayne, Indiana",
+                        "UrlName": "fort-wayne-indiana"
+                    },
+                    "synonyms": [
+                        "Fort Wayne"
+                    ],
+                    "value": "Fort Wayne, Indiana"
+                },
+                {
+                    "metadata": {
+                        "AdditionalHours": "12pm-11pm M-T",
+                        "Address": {
+                            "City": "Edmonton",
+                            "CountryCode": "CA",
+                            "Id": "0703b310-3b43-61b8-b268-ff0100512f84",
+                            "Latitude": 53.5407949,
+                            "Longitude": -113.4955002,
+                            "MapZoomLevel": 4,
+                            "StateCode": "AB",
+                            "Street": "10212 Jasper Ave",
+                            "Zip": "T5J 5A3"
+                        },
+                        "Amenities": [
+                            {
+                                "PersistedValue": "car",
+                                "Text": "Drive Thru"
+                            }
+                        ],
+                        "DefaultUrl": "https://corianderlane.sitefinity.cloud/north-america/locations/edmonton-ab",
+                        "Hours": "10am-9pm W-SU",
+                        "Images": [
+                            {
+                                "EmbedUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_005.jpg?sfvrsn=651627c3_5",
+                                "MediaUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_005.jpg?sfvrsn=651627c3_5",
+                                "ThumbnailUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_005.tmb-.jpg?sfvrsn=651627c3_5",
+                                "Title": [
+                                    "Open Air Dining"
+                                ]
+                            },
+                            {
+                                "EmbedUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_009.jpg?sfvrsn=63d55481_7",
+                                "MediaUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_009.jpg?sfvrsn=63d55481_7",
+                                "ThumbnailUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_009.tmb-.jpg?sfvrsn=63d55481_7",
+                                "Title": [
+                                    "Dining Room"
+                                ]
+                            }
+                        ],
+                        "Title": "Edmonton, AB",
+                        "UrlName": "edmonton-ab"
+                    },
+                    "synonyms": [
+                        "Edmonton"
+                    ],
+                    "value": "Edmonton, AB"
+                },
+                {
+                    "metadata": {
+                        "AdditionalHours": "1pm-5pm SU-M",
+                        "Address": {
+                            "City": " Norcross",
+                            "CountryCode": "US",
+                            "Id": "1503b310-3b43-61b8-b268-ff0100512f84",
+                            "Latitude": 33.9768315,
+                            "Longitude": -84.214094,
+                            "MapZoomLevel": 3,
+                            "StateCode": "GA",
+                            "Street": "5051 Peachtree Corners Circle, Suite 200",
+                            "Zip": "30092"
+                        },
+                        "Amenities": [
+                            {
+                                "PersistedValue": "car",
+                                "Text": "Drive Thru"
+                            },
+                            {
+                                "PersistedValue": "wifi",
+                                "Text": "Wifi"
+                            }
+                        ],
+                        "DefaultUrl": "https://corianderlane.sitefinity.cloud/north-america/locations/norcross-ga",
+                        "Hours": "11am-11pm T-S",
+                        "Images": [
+                            {
+                                "EmbedUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_001.jpg?sfvrsn=a5793f6_7",
+                                "MediaUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_001.jpg?sfvrsn=a5793f6_7",
+                                "ThumbnailUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_001.tmb-.jpg?sfvrsn=a5793f6_7",
+                                "Title": [
+                                    "Dining Room"
+                                ]
+                            },
+                            {
+                                "EmbedUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_011.jpg?sfvrsn=c54dea5d_5",
+                                "MediaUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_011.jpg?sfvrsn=c54dea5d_5",
+                                "ThumbnailUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_011.tmb-.jpg?sfvrsn=c54dea5d_5",
+                                "Title": [
+                                    "Friendly Waitstaff"
+                                ],
+                                "TotalSize": 100921
+                            }
+                        ],
+                        "Title": "Norcross, GA",
+                        "UrlName": "norcross-ga"
+                    },
+                    "synonyms": [
+                        "Norcross"
+                    ],
+                    "value": "Norcross, GA"
+                },
+                {
+                    "metadata": {
+                        "AdditionalHours": "1pm-7pm SU-M",
+                        "Address": {
+                            "City": "Morrisville",
+                            "CountryCode": "US",
+                            "Id": "1103b310-3b43-61b8-b268-ff0100512f84",
+                            "Latitude": 35.8621704,
+                            "Longitude": -78.8416033,
+                            "MapZoomLevel": 4,
+                            "StateCode": "NC",
+                            "Street": "3005 Carrington Mill Blvd, Suite 400",
+                            "Zip": "27560"
+                        },
+                        "Amenities": [
+                            {
+                                "PersistedValue": "calendar",
+                                "Text": "Meeting Facilities"
+                            },
+                            {
+                                "PersistedValue": "car",
+                                "Text": "Drive Thru"
+                            },
+                            {
+                                "PersistedValue": "wifi",
+                                "Text": "Wifi"
+                            }
+                        ],
+                        "DefaultUrl": "https://corianderlane.sitefinity.cloud/north-america/locations/morrisville-nc",
+                        "Hours": "11am-9pm T-S",
+                        "Images": [
+                            {
+                                "EmbedUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_005.jpg?sfvrsn=651627c3_5",
+                                "MediaUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_005.jpg?sfvrsn=651627c3_5",
+                                "ThumbnailUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_005.tmb-.jpg?sfvrsn=651627c3_5",
+                                "Title": [
+                                    "Open Air Dining"
+                                ]
+                            },
+                            {
+                                "EmbedUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_013.jpg?sfvrsn=ffefe5bf_5",
+                                "MediaUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_013.jpg?sfvrsn=ffefe5bf_5",
+                                "ParentId": "c7663aa0-592d-43aa-9e6c-d464f288565f",
+                                "ThumbnailUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_013.tmb-.jpg?sfvrsn=ffefe5bf_5",
+                                "Title": [
+                                    "Waitstaff"
+                                ]
+                            }
+                        ],
+                        "Title": "Morrisville, NC",
+                        "UrlName": "morrisville-nc"
+                    },
+                    "synonyms": [
+                        "Morrisville"
+                    ],
+                    "value": "Morrisville, NC"
+                },
+                {
+                    "metadata": {
+                        "AdditionalHours": "3pm-11pm S-SU",
+                        "Address": {
+                            "City": "Winnipeg",
+                            "CountryCode": "CA",
+                            "Id": "0f03b310-3b43-61b8-b268-ff0100512f84",
+                            "Latitude": 49.8874017,
+                            "Longitude": -97.1334415,
+                            "MapZoomLevel": 4,
+                            "StateCode": "MB",
+                            "Street": "515 Portage Ave",
+                            "Zip": "R3B 2E9"
+                        },
+                        "Amenities": [],
+                        "DefaultUrl": "https://corianderlane.sitefinity.cloud/north-america/locations/winnipeg-mb",
+                        "Hours": "12pm-10pm M-F",
+                        "Images": [
+                            {
+                                "EmbedUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_006.jpg?sfvrsn=75af6cbd_5",
+                                "MediaUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_006.jpg?sfvrsn=75af6cbd_5",
+                                "ThumbnailUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_006.tmb-.jpg?sfvrsn=75af6cbd_5",
+                                "Title": [
+                                    "Open Air Dining"
+                                ]
+                            },
+                            {
+                                "EmbedUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_012.jpg?sfvrsn=e32b67e8_5",
+                                "MediaUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_012.jpg?sfvrsn=e32b67e8_5",
+                                "ThumbnailUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_012.tmb-.jpg?sfvrsn=e32b67e8_5",
+                                "Title": [
+                                    "Waitstaff"
+                                ]
+                            }
+                        ],
+                        "Title": "Winnipeg, MB",
+                        "UrlName": "winnipeg-mb"
+                    },
+                    "synonyms": [
+                        "Winnipeg"
+                    ],
+                    "value": "Winnipeg, MB"
+                },
+                {
+                    "metadata": {
+                        "Address": {
+                            "City": "Chicago",
+                            "CountryCode": "US",
+                            "Id": "0903b310-3b43-61b8-b268-ff0100512f84",
+                            "Latitude": 41.8726955,
+                            "Longitude": -87.6241047,
+                            "MapZoomLevel": 5,
+                            "StateCode": "IL",
+                            "Street": "301 S Columbus Dr",
+                            "Zip": "60605"
+                        },
+                        "Amenities": [
+                            {
+                                "PersistedValue": "calendar",
+                                "Text": "Meeting Facilities"
+                            },
+                            {
+                                "PersistedValue": "car",
+                                "Text": "Drive Thru"
+                            },
+                            {
+                                "PersistedValue": "wifi",
+                                "Text": "Wifi"
+                            }
+                        ],
+                        "DefaultUrl": "https://corianderlane.sitefinity.cloud/north-america/locations/chicago-il",
+                        "Hours": "11am-11pm M-SU",
+                        "Id": "b9210516-b0cb-465c-bad9-b2b50b6c9e71",
+                        "Images": [
+                            {
+                                "EmbedUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_001.jpg?sfvrsn=a5793f6_7",
+                                "MediaUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_001.jpg?sfvrsn=a5793f6_7",
+                                "ThumbnailUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_001.tmb-.jpg?sfvrsn=a5793f6_7",
+                                "Title": [
+                                    "Dining Room"
+                                ]
+                            },
+                            {
+                                "EmbedUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_006.jpg?sfvrsn=75af6cbd_5",
+                                "MediaUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_006.jpg?sfvrsn=75af6cbd_5",
+                                "ThumbnailUrl": "https://corianderlane.sitefinity.cloud/images/librariesprovider2/locations/location_006.tmb-.jpg?sfvrsn=75af6cbd_5",
+                                "Title": [
+                                    "Open Air Dining"
+                                ]
+                            }
+                        ],
+                        "Title": "Chicago, IL",
+                        "UrlName": "chicago-il"
+                    },
+                    "synonyms": [
+                        "Chicago"
+                    ],
+                    "value": "Chicago, IL"
+                }
+            ],
+            "lookup-strategy": "keywords",
+            "name": "City"
+        },
+        {
+            "data": [
+                {
+                    "metadata": {},
+                    "synonyms": [
+                        "all restaurants",
+                        "all your restaurants",
+                        "all"
+                    ],
+                    "value": "All"
+                },
+                {
+                    "metadata": {},
+                    "synonyms": [],
+                    "value": "10"
+                },
+                {
+                    "metadata": {},
+                    "synonyms": [],
+                    "value": "100"
+                },
+                {
+                    "metadata": {},
+                    "synonyms": [],
+                    "value": "20"
+                },
+                {
+                    "metadata": {},
+                    "synonyms": [],
+                    "value": "50"
+                }
+            ],
+            "lookup-strategy": "keywords",
+            "name": "Distance"
+        },
+        {
+            "data": [
+                {
+                    "metadata": {},
+                    "synonyms": [],
+                    "value": "km"
+                },
+                {
+                    "metadata": {},
+                    "synonyms": [],
+                    "value": "mi"
+                }
+            ],
+            "lookup-strategy": "keywords",
+            "name": "DistanceUnit"
+        }
+    ]
+}
