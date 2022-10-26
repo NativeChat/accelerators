@@ -159,7 +159,7 @@
                         "finalMessage": "Super, tout est prêt. Vous avez un rendez-vous.",
                         "helpMessage": "Voici ce que je peux faire pour vous:",
                         "helpQuickReply": "Planifier un rendez-vous",
-                        "specialistMessage": "Bon, nous prendrons rendez-vous.</newline>Quel spécialiste avez-vous en tête?",
+                        "specialistMessage": "D'accord, nous prendrons votre rendez-vous.</newline>Quel spécialiste avez-vous en tête?",
                         "specialistQuickReply": [
                             "coiffeur",
                             "cosmétologue",
@@ -196,15 +196,15 @@
                 },
                 {
                     "metadata": {
-                        "confirmMessage": "Ist das richtig?",
+                        "confirmMessage": "Ist das korrekt?",
                         "dateDisplay": {
                             "title": "Datum auswählen"
                         },
-                        "dateMessage": "Noch eine Sache, welches Datum?",
-                        "finalMessage": "Großartig, alles klar. Sie haben einen Termin.",
+                        "dateMessage": "Für welches Datum wollen Sie den Termin buchen?",
+                        "finalMessage": "Ok, Ihr Termin ist vereinbart.",
                         "helpMessage": "Was kann ich für Sie tun:",
                         "helpQuickReply": "Termin vereinbaren",
-                        "specialistMessage": "Richtig, wir buchen einen Termin.</newline>Welchen Spezialisten haben Sie im Sinn?",
+                        "specialistMessage": "Ok, wir buchen einen Termin für Sie.</newline>Was für einen Spezialisten brauchen Sie?",
                         "specialistQuickReply": [
                             "Friseur",
                             "Kosmetiker",
