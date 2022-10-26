@@ -86,9 +86,6 @@
                     }
                 },
                 {
-                    "conditions": [
-                        "{{$not ($eq distance 'All')}}"
-                    ],
                     "entity-type": "DistanceUnit",
                     "messages": [
                         "Please specify the range unit:"
@@ -144,9 +141,6 @@
                     }
                 },
                 {
-                    "conditions": [
-                        "{{$not ($eq distance 'All')}}"
-                    ],
                     "entity-type": "DistanceUnit",
                     "messages": [
                         "Please specify the range unit:"
@@ -185,7 +179,7 @@
                     ],
                     "messages": [
                         [
-                            "I cannot find a restaurant in {{city}}."
+                            "I cannot find a restaurant {{#if ($has city)}} in {{city}}{{else}} near your location{{/if}}."
                         ]
                     ]
                 },
@@ -196,7 +190,7 @@
                     ],
                     "messages": [
                         [
-                            "We have one restaurant{{#if ($has city)}} in {{city}}{{/if}}:",
+                            "We have one restaurant{{#if ($has city)}} in {{city}}{{else}} near your location{{/if}}:",
                             "{{#if ($not ($eq _system.channel.ProviderName 'facebook'))}}![{{city.Images.0.Title}}]({{restaurants.0.Images.0.ThumbnailUrl}} '{{city.Images.0.Title}}'){{/if}}",
                             "*{{restaurants.0.Address.Street}}*\n*{{restaurants.0.Address.City}}, {{restaurants.0.Address.Zip}}*",
                             "Working hours: *{{restaurants.0.Hours}}*",

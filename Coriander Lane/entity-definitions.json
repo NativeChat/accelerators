@@ -649,15 +649,6 @@
             "data": [
                 {
                     "metadata": {},
-                    "synonyms": [
-                        "all restaurants",
-                        "all your restaurants",
-                        "all"
-                    ],
-                    "value": "All"
-                },
-                {
-                    "metadata": {},
                     "synonyms": [],
                     "value": "10"
                 },
