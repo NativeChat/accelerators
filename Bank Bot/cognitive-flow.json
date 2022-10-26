@@ -55,7 +55,7 @@
                 {
                     "type": "question",
                     "entity": "reason",
-                    "entity-type": "Text",
+                    "entity-type": "HardshipReason",
                     "messages": [
                         [
                             "Let's get started.",
@@ -64,59 +64,40 @@
                         ]
                     ],
                     "display": {
-                        "type": "single-select",
-                        "data": [
-                            "COVID-19",
-                            "Natural Disaster",
-                            "Reduced Income",
-                            "Overcommitted",
-                            "Unemployed",
-                            "Injury or Illness",
-                            "Separation/Divorce",
-                            "Study",
-                            "Maternity",
-                            "Deceased party",
-                            "Other"
-                        ]
+                        "type": "single-select"
                     }
                 },
                 {
                     "conditions": [
-                        "{{$eq reason \"COVID-19\"}}"
+                        "{{reason.isCovid}}"
                     ],
                     "type": "conversation",
                     "conversation": "covid-19-questions"
                 },
                 {
                     "conditions": [
-                        "{{$or ($ne reason \"COVID-19\") shouldApply}}"
+                        "{{$or ($not reason.isCovid) shouldApply}}"
                     ],
                     "type": "conversation",
                     "conversation": "verifyCustomer"
                 },
                 {
                     "conditions": [
-                        "{{$and ($and ($or ($ne reason \"COVID-19\") shouldApply)) ($and ($ne bankingPin \"I don't know\") ($ne customerNumber \"I don't know\"))}}"
+                        "{{$or ($not reason.isCovid) shouldApply}}",
+                        "{{$ne customerNumber \"I don't know\"}}",
+                        "{{$ne bankingPin \"I don't know\"}}"
                     ],
                     "type": "conversation",
                     "conversation": "applyForHardship"
                 },
                 {
                     "conditions": [
-                        "{{$and ($has shouldApply) ($not shouldApply)}}"
+                        "{{$has shouldApply}}",
+                        "{{$not shouldApply}}"
                     ],
                     "type": "message",
                     "messages": [
                         "Ok. Goodbye."
-                    ]
-                },
-                {
-                    "conditions": [
-                        "{{$and ($has isOnlineBankingUser) ($not isOnlineBankingUser)}}"
-                    ],
-                    "type": "message",
-                    "messages": [
-                        "I'm sorry. Only online banking customers can apply for hardship at this moment."
                     ]
                 }
             ]
@@ -127,7 +108,7 @@
                 {
                     "type": "question",
                     "entity": "covidImpactType",
-                    "entity-type": "Text",
+                    "entity-type": "CovidImpactType",
                     "messages": [
                         [
                             "We’re here to help and have the financial relief options to help our customers get through COVID-19.",
@@ -136,12 +117,7 @@
                         ]
                     ],
                     "display": {
-                        "type": "quick-reply",
-                        "data": [
-                            "Illness",
-                            "Unemployment",
-                            "Reduced Income"
-                        ]
+                        "type": "quick-reply"
                     }
                 },
                 {
@@ -176,14 +152,29 @@
                     "display": {
                         "type": "quick-reply",
                         "data": [
+                            "12345678",
                             "I don't know",
                             "I don't have one"
+                        ]
+                    },
+                    "reactions": {
+                        "validations": [
+                            {
+                                "type": "regex",
+                                "parameters": {
+                                    "value": "\\d{8}|I don't know|I don't have one"
+                                },
+                                "error-message": [
+                                    "Please provide a valid customer number"
+                                ]
+                            }
                         ]
                     }
                 },
                 {
                     "conditions": [
-                        "{{$or ($ne customerNumber \"I don't know\") ($ne customerNumber \"i don't know\") ($ne customerNumber \"I don't have one\")}}"
+                        "{{$ne customerNumber \"I don't know\"}}",
+                        "{{$ne customerNumber \"I don't have one\"}}"
                     ],
                     "type": "question",
                     "entity": "bankingPin",
@@ -195,11 +186,31 @@
                             "Please, enter the verification 3-digit code from that message.",
                             "Demo 3-digit code is 123"
                         ]
-                    ]
+                    ],
+                    "display": {
+                        "type": "quick-reply",
+                        "data": [
+                            "123",
+                            "I don't have one"
+                        ]
+                    },
+                    "reactions": {
+                        "validations": [
+                            {
+                                "type": "regex",
+                                "parameters": {
+                                    "value": "\\d{3}|I don't have one"
+                                },
+                                "error-message": [
+                                    "Please provide a valid code"
+                                ]
+                            }
+                        ]
+                    }
                 },
                 {
                     "conditions": [
-                        "{{$or ($eq customerNumber \"I don't know\") ($eq pin \"I don't know\") ($eq pin \"I don't have one\")}}"
+                        "{{$or ($not ($has bankingPin)) ($eq bankingPin \"I don't have one\")}}"
                     ],
                     "type": "message",
                     "messages": [
@@ -208,7 +219,9 @@
                 },
                 {
                     "conditions": [
-                        "{{$and ($and ($has bankingPin) ($has customerNumber)) ($and ($or ($ne bankingPin '123') ($ne customerNumber '12345678')) ($ne bankingPin \"I don't know\"))}}"
+                        "{{$has customerNumber}}",
+                        "{{$has bankingPin}}",
+                        "{{$or ($ne bankingPin '123') ($ne customerNumber '12345678')}}"
                     ],
                     "type": "message",
                     "messages": [
@@ -217,7 +230,9 @@
                 },
                 {
                     "conditions": [
-                        "{{$and ($and ($has bankingPin) ($has customerNumber)) ($and ($or ($ne bankingPin '123') ($ne customerNumber '12345678')) ($ne bankingPin \"I don't know\"))}}"
+                        "{{$has customerNumber}}",
+                        "{{$has bankingPin}}",
+                        "{{$or ($ne bankingPin '123') ($ne customerNumber '12345678')}}"
                     ],
                     "type": "command",
                     "command": "invalidate-entity",
@@ -234,7 +249,7 @@
                 {
                     "type": "question",
                     "entity": "accountNumber",
-                    "entity-type": "Text",
+                    "entity-type": "AccountNumber",
                     "messages": [
                         [
                             "Thank you, Mrs. Jane Doe.",
@@ -243,36 +258,27 @@
                         ]
                     ],
                     "display": {
-                        "type": "quick-reply",
-                        "data": [
-                            "Mortgage (from 2016)",
-                            "Personal Loan (from 2019)",
-                            "All of them"
-                        ]
+                        "type": "quick-reply"
                     }
                 },
                 {
                     "type": "question",
-                    "entity": "shouldSubmit",
-                    "entity-type": "Text",
+                    "entity": "action",
+                    "entity-type": "Action",
                     "messages": [
                         [
                             "Thank you. We have all the information we need from you right now.",
-                            "Please note we are currently experiencing high volumes, but we have your request and will get back to you as soon as we can.",
+                            "Please note we are currently experiencing high volumes of applications, but we have your request and will get back to you as soon as we can.",
                             "By submitting this application you consent for us collecting your personal information, including any sensitive information, you have disclosed in this application form. Please see our [Privacy Policy](https://progress.com/nativechat/) for details."
                         ]
                     ],
                     "display": {
-                        "type": "quick-reply",
-                        "data": [
-                            "Submit",
-                            "Withdraw"
-                        ]
+                        "type": "quick-reply"
                     }
                 },
                 {
                     "conditions": [
-                        "{{$eq shouldSubmit 'Submit'}}"
+                        "{{action.shouldSubmit}}"
                     ],
                     "type": "webhook",
                     "entity": "savedApplication",
@@ -292,7 +298,7 @@
                 },
                 {
                     "conditions": [
-                        "{{$eq shouldSubmit 'Submit'}}",
+                        "{{action.shouldSubmit}}",
                         "{{$has savedApplication }}"
                     ],
                     "type": "message",
@@ -305,7 +311,7 @@
                 },
                 {
                     "conditions": [
-                        "{{$ne shouldSubmit 'Submit'}}"
+                        "{{$not action.shouldSubmit}}"
                     ],
                     "type": "message",
                     "messages": [

@@ -122,6 +122,156 @@
             ],
             "lookup-strategy": "trait",
             "name": "Conversation"
+        },
+        {
+            "data": [
+                {
+                    "metadata": {
+                        "isCovid": false
+                    },
+                    "synonyms": [
+                        "Divorce",
+                        "Separation"
+                    ],
+                    "value": "Separation/Divorce"
+                },
+                {
+                    "metadata": {
+                        "isCovid": false
+                    },
+                    "synonyms": [],
+                    "value": "Deceased party"
+                },
+                {
+                    "metadata": {
+                        "isCovid": false
+                    },
+                    "synonyms": [],
+                    "value": "Injury or Illness"
+                },
+                {
+                    "metadata": {
+                        "isCovid": false
+                    },
+                    "synonyms": [],
+                    "value": "Maternity"
+                },
+                {
+                    "metadata": {
+                        "isCovid": false
+                    },
+                    "synonyms": [],
+                    "value": "Natural Disaster"
+                },
+                {
+                    "metadata": {
+                        "isCovid": false
+                    },
+                    "synonyms": [],
+                    "value": "Other"
+                },
+                {
+                    "metadata": {
+                        "isCovid": false
+                    },
+                    "synonyms": [],
+                    "value": "Overcommitted"
+                },
+                {
+                    "metadata": {
+                        "isCovid": false
+                    },
+                    "synonyms": [],
+                    "value": "Reduced Income"
+                },
+                {
+                    "metadata": {
+                        "isCovid": false
+                    },
+                    "synonyms": [],
+                    "value": "Study"
+                },
+                {
+                    "metadata": {
+                        "isCovid": false
+                    },
+                    "synonyms": [],
+                    "value": "Unemployed"
+                },
+                {
+                    "metadata": {
+                        "isCovid": true
+                    },
+                    "synonyms": [],
+                    "value": "COVID-19"
+                }
+            ],
+            "lookup-strategy": "keywords",
+            "name": "HardshipReason"
+        },
+        {
+            "data": [
+                {
+                    "metadata": {
+                        "shouldSubmit": false
+                    },
+                    "synonyms": [],
+                    "value": "Withdraw"
+                },
+                {
+                    "metadata": {
+                        "shouldSubmit": true
+                    },
+                    "synonyms": [],
+                    "value": "Submit"
+                }
+            ],
+            "lookup-strategy": "keywords",
+            "name": "Action"
+        },
+        {
+            "data": [
+                {
+                    "metadata": {},
+                    "synonyms": [
+                        "All"
+                    ],
+                    "value": "All of them"
+                },
+                {
+                    "metadata": {},
+                    "synonyms": [],
+                    "value": "Mortgage (from 2016)"
+                },
+                {
+                    "metadata": {},
+                    "synonyms": [],
+                    "value": "Personal Loan (from 2019)"
+                }
+            ],
+            "lookup-strategy": "keywords",
+            "name": "AccountNumber"
+        },
+        {
+            "data": [
+                {
+                    "metadata": {},
+                    "synonyms": [],
+                    "value": "Illness"
+                },
+                {
+                    "metadata": {},
+                    "synonyms": [],
+                    "value": "Lower income"
+                },
+                {
+                    "metadata": {},
+                    "synonyms": [],
+                    "value": "Unemployment"
+                }
+            ],
+            "lookup-strategy": "keywords",
+            "name": "CovidImpactType"
         }
     ]
 }
