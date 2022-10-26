@@ -22,7 +22,7 @@
                     "type": "message",
                     "messages": [
                         [
-                            "Answer with Yes or No the questions."
+                            "Please, answer the questions truthfully."
                         ]
                     ],
                     "display": {
@@ -39,7 +39,6 @@
             "steps": [
                 {
                     "entity-type": "Number",
-                    "is-explicit": true,
                     "messages": [
                         "What is your age?"
                     ],
@@ -68,154 +67,91 @@
                     "command": "go-to cancel"
                 },
                 {
-                    "entity-type": "Text",
-                    "is-explicit": true,
                     "messages": [
                         "Have you been in contact with someone known to have coronavirus also known as COVID-19?"
                     ],
-                    "type": "question",
-                    "entity": "covidContact",
-                    "display": {
-                        "type": "quick-reply",
-                        "data": [
-                            "Yes",
-                            "No"
-                        ]
-                    }
+                    "type": "confirmation",
+                    "entity": "covidContact"
                 },
                 {
-                    "entity-type": "Text",
-                    "is-explicit": true,
                     "messages": [
                         "Have you been told by a public health official or your employer you may have been exposed to coronavirus also known as COVID-19?"
                     ],
-                    "type": "question",
-                    "entity": "covidExposure",
-                    "display": {
-                        "type": "quick-reply",
-                        "data": [
-                            "Yes",
-                            "No"
-                        ]
-                    }
+                    "type": "confirmation",
+                    "entity": "covidExposure"
                 },
                 {
-                    "entity-type": "Text",
-                    "is-explicit": true,
                     "messages": [
                         [
                             "Got it. To evaluate you further, please answer these next 5 symptom-related questions.",
                             "Have you started coughing within the past few days?"
                         ]
                     ],
-                    "type": "question",
-                    "entity": "newCough",
-                    "display": {
-                        "type": "quick-reply",
-                        "data": [
-                            "Yes",
-                            "No"
-                        ]
-                    }
+                    "type": "confirmation",
+                    "entity": "newCough"
                 },
                 {
                     "conditions": [
-                        "{{$eq newCough 'Yes'}}"
+                        "{{newCough}}"
                     ],
                     "type": "command",
                     "command": "go-to transfer"
                 },
                 {
-                    "entity-type": "Text",
-                    "is-explicit": true,
                     "messages": [
                         "Do you have a fever that's 100.4 degrees Fahrenheit (38C) or higher?"
                     ],
-                    "type": "question",
-                    "entity": "fever",
-                    "display": {
-                        "type": "quick-reply",
-                        "data": [
-                            "Yes",
-                            "No"
-                        ]
-                    }
+                    "type": "confirmation",
+                    "entity": "fever"
                 },
                 {
                     "conditions": [
-                        "{{$and ($eq newCough 'Yes') ($eq fever 'Yes') }}"
+                        "{{fever}}"
                     ],
                     "type": "command",
                     "command": "go-to transfer"
                 },
                 {
-                    "entity-type": "Text",
-                    "is-explicit": true,
                     "messages": [
                         "Are you experiencing new shortness of breath?"
                     ],
-                    "type": "question",
-                    "entity": "shortnessBreath",
-                    "display": {
-                        "type": "quick-reply",
-                        "data": [
-                            "Yes",
-                            "No"
-                        ]
-                    }
+                    "type": "confirmation",
+                    "entity": "shortnessBreath"
                 },
                 {
                     "conditions": [
-                        "{{$or ($and ($eq shortnessBreath 'Yes') ($eq fever 'Yes')) ($and shortnessBreath ($gt age '60')) }}"
+                        "{{$and shortnessBreath ($gt age '60')}}"
                     ],
                     "type": "command",
                     "command": "go-to transfer"
                 },
                 {
-                    "entity-type": "Text",
-                    "is-explicit": true,
                     "messages": [
                         [
                             "Just a couple more questions about recent symptoms.",
                             "Are you experiencing new sore throat?"
                         ]
                     ],
-                    "type": "question",
-                    "entity": "soreThroat",
-                    "display": {
-                        "type": "quick-reply",
-                        "data": [
-                            "Yes",
-                            "No"
-                        ]
-                    }
+                    "type": "confirmation",
+                    "entity": "soreThroat"
                 },
                 {
                     "conditions": [
-                        "{{$and ($eq soreThroat 'Yes') ($eq fever 'Yes') }}"
+                        "{{soreThroat}}"
                     ],
                     "type": "command",
                     "command": "go-to transfer"
                 },
                 {
-                    "entity-type": "Text",
-                    "is-explicit": true,
                     "messages": [
                         "Do you have any muscle aches?"
                     ],
-                    "type": "question",
-                    "entity": "muscleAches",
-                    "display": {
-                        "type": "quick-reply",
-                        "data": [
-                            "Yes",
-                            "No"
-                        ]
-                    }
+                    "type": "confirmation",
+                    "entity": "muscleAches"
                 },
                 {
                     "conditions": [
-                        "{{$and ($eq muscleAches 'Yes') ($eq fever 'Yes') }}"
+                        "{{muscleAches}}"
                     ],
                     "type": "command",
                     "command": "go-to transfer"
@@ -232,30 +168,23 @@
                 },
                 {
                     "conditions": [
-                        "{{$and ($eq nurseFacility true) ($or ($eq soreThroat 'Yes') ($eq muscleAches 'Yes') ($eq shortnessBreath 'Yes') ($eq fever 'Yes') ($eq newCough 'Yes'))}}"
+                        "{{nurseFacility}}",
+                        "{{shortnessBreath}}"
                     ],
                     "type": "command",
                     "command": "go-to transfer"
                 },
                 {
-                    "entity-type": "Text",
-                    "is-explicit": true,
                     "messages": [
                         "Do you have any conditions such as Congestive Heart Disease, Kidney Disease, Liver Disease or Lung Disease?"
                     ],
-                    "type": "question",
-                    "entity": "heartConditions",
-                    "display": {
-                        "type": "quick-reply",
-                        "data": [
-                            "Yes",
-                            "No"
-                        ]
-                    }
+                    "type": "confirmation",
+                    "entity": "heartConditions"
                 },
                 {
                     "conditions": [
-                        "{{$and ($eq heartConditions true) ($or ($eq soreThroat 'Yes') ($eq muscleAches 'Yes') ($eq shortnessBreath 'Yes') ($eq fever 'Yes') ($eq newCough 'Yes'))}}"
+                        "{{heartConditions}}",
+                        "{{shortnessBreath}}"
                     ],
                     "type": "command",
                     "command": "go-to transfer"
@@ -269,14 +198,15 @@
                 },
                 {
                     "conditions": [
-                        "{{$and ($eq immunocompromised true) ($or ($eq soreThroat 'Yes') ($eq muscleAches 'Yes') ($eq shortnessBreath 'Yes') ($eq fever 'Yes') ($eq newCough 'Yes'))}}"
+                        "{{immunocompromised}}",
+                        "{{shortnessBreath}}"
                     ],
                     "type": "command",
                     "command": "go-to transfer"
                 },
                 {
                     "conditions": [
-                        "{{$eq immunocompromised false}}"
+                        "{{$not immunocompromised}}"
                     ],
                     "type": "message",
                     "messages": [
@@ -308,7 +238,7 @@
                     "entity-type": "Text",
                     "messages": [
                         [
-                            "Based on your symptoms, it's important that you be evaluated further. "
+                            "Based on your symptoms, it's important that you be evaluated further."
                         ]
                     ],
                     "type": "question",
