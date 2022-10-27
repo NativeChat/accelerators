@@ -1,4 +1,4 @@
-# Bank Bot
+# Bank Chatbot
 
 ## Requirements
 1. NativeChat account (If you don't have one, you can register at https://bots.nativechat.com/register)
