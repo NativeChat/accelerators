@@ -1,0 +1,322 @@
+{
+    "entity-definitions": [
+        {
+            "data": [
+                {
+                    "answers": [
+                        "Any time :)",
+                        "Just doing my job!",
+                        "You're welcome :)"
+                    ],
+                    "expressions": [
+                        "I appreciate that",
+                        "I know. thank you",
+                        "I really appreciate it",
+                        "awesome thanks",
+                        "awesome thx",
+                        "cool ty",
+                        "good to know. thanks",
+                        "great! thanks",
+                        "great, thank you",
+                        "many thanks",
+                        "nice thanks",
+                        "nice, thank you",
+                        "ok thanks",
+                        "ok thx",
+                        "okay, thank you",
+                        "sweet thanks",
+                        "thank you buddy",
+                        "thank you for showing me that",
+                        "thank you so much",
+                        "thank you very much",
+                        "thank you",
+                        "thank",
+                        "thanks a lot",
+                        "thanks again",
+                        "thanks bot",
+                        "thanks for the help",
+                        "thanks for your help",
+                        "thanks man",
+                        "thanks you too",
+                        "thanks",
+                        "thankssssssssss",
+                        "that's very kind",
+                        "thnaks",
+                        "thnx",
+                        "thx dude",
+                        "thx mate",
+                        "thx",
+                        "ty",
+                        "you saved my day",
+                        "you're good"
+                    ],
+                    "value": "thanks"
+                },
+                {
+                    "answers": [
+                        "Bye!",
+                        "Good bye!",
+                        "See you!"
+                    ],
+                    "expressions": [
+                        "++",
+                        "I go bye",
+                        "I have to go",
+                        "I said bye",
+                        "I'll see you",
+                        "I'm outa here",
+                        "See you later",
+                        "adieu",
+                        "adios",
+                        "au revoir",
+                        "awesome see ya",
+                        "best regards",
+                        "best wishes",
+                        "bye bye",
+                        "bye now",
+                        "bye",
+                        "bye+",
+                        "bye-bye",
+                        "byebye",
+                        "byeee",
+                        "byeeeee",
+                        "catch you later",
+                        "cia",
+                        "cool see you next time",
+                        "cya l8er",
+                        "cya",
+                        "excellent bye",
+                        "excellent bye-bye",
+                        "good night",
+                        "goodbye",
+                        "goodnight then",
+                        "got to go",
+                        "great bye",
+                        "gtg",
+                        "hasta la vista",
+                        "have a good day",
+                        "have a great weekend",
+                        "have a nice day",
+                        "later",
+                        "ok I have to go thanks",
+                        "ok, bye",
+                        "see u",
+                        "see ya",
+                        "see you soon",
+                        "see you",
+                        "see yu",
+                        "so long",
+                        "talk to you soon",
+                        "tciao"
+                    ],
+                    "value": "goodbye"
+                }
+            ],
+            "lookup-strategy": "QnA",
+            "name": "SmallTalk"
+        },
+        {
+            "data": [
+                {
+                    "expressions": [
+                        "Annual leave balance",
+                        "Show holiday balance",
+                        "Time off balance"
+                    ],
+                    "value": "time-off-balance"
+                },
+                {
+                    "expressions": [
+                        "Apply for job",
+                        "I want to apply for job"
+                    ],
+                    "value": "job-apply"
+                },
+                {
+                    "expressions": [
+                        "Are you intelligent?",
+                        "Are you useless?",
+                        "Can you help me?",
+                        "Commands",
+                        "Help me",
+                        "Help me, please.",
+                        "Help",
+                        "How can I use you?",
+                        "How can you help me?",
+                        "I am lost",
+                        "I don't know what to do",
+                        "I need some assistance",
+                        "I need some help !",
+                        "I want to know more about you",
+                        "Please help me",
+                        "Show me what you do",
+                        "What are my options?",
+                        "What are you built for?",
+                        "What are you doing?",
+                        "What are your abilities?",
+                        "What can I say?",
+                        "What can you do?",
+                        "What can you do?",
+                        "What can you tell me?",
+                        "What do you do?",
+                        "What makes you unique?",
+                        "What's your purpose?",
+                        "What's your utility?",
+                        "You're useless.",
+                        "are you useful?",
+                        "assist me",
+                        "could you help me",
+                        "give me help",
+                        "help please?",
+                        "how does this work?",
+                        "how to",
+                        "i am confused",
+                        "i cant find the way i need help",
+                        "i need help",
+                        "list help",
+                        "menu",
+                        "more help",
+                        "need guidance",
+                        "need some guidance",
+                        "not sure what to do here",
+                        "show help",
+                        "stop",
+                        "what do you know to do?",
+                        "what is this",
+                        "what is your usage",
+                        "what should I do?",
+                        "what the bot knows to do?",
+                        "who are you?"
+                    ],
+                    "value": "help"
+                },
+                {
+                    "expressions": [
+                        "Book a holiday",
+                        "Book holidays",
+                        "Book time off",
+                        "I need some time off",
+                        "I want to book vacation"
+                    ],
+                    "value": "time-off-book"
+                },
+                {
+                    "expressions": [
+                        "Can we reset the conversation?",
+                        "Can we start over?",
+                        "Forget about it, reset",
+                        "Forget, restart",
+                        "I want to reset the conversation",
+                        "I want to start again",
+                        "It is possible to restart the conversation?",
+                        "Let's restart",
+                        "Please reboot",
+                        "Reboot the flow",
+                        "can we start again?",
+                        "let's do it again",
+                        "reset conversation",
+                        "reset",
+                        "restart conversation",
+                        "restart",
+                        "restart, plase",
+                        "start again"
+                    ],
+                    "value": "restart"
+                },
+                {
+                    "expressions": [
+                        "Show booked holiday",
+                        "Show my leave dates?",
+                        "What holidays do I have booked?",
+                        "When are my holidays?"
+                    ],
+                    "value": "time-off-list-booked"
+                }
+            ],
+            "lookup-strategy": "trait",
+            "name": "Conversation"
+        },
+        {
+            "data": [
+                {
+                    "metadata": {
+                        "department": "Accounting",
+                        "location": "Paris"
+                    },
+                    "synonyms": [],
+                    "value": "Accountant"
+                },
+                {
+                    "metadata": {
+                        "department": "IT",
+                        "location": "Berlin"
+                    },
+                    "synonyms": [],
+                    "value": "Network Engineer"
+                },
+                {
+                    "metadata": {
+                        "department": "Marketing",
+                        "location": "Berlin"
+                    },
+                    "synonyms": [],
+                    "value": "Product Marketing"
+                },
+                {
+                    "metadata": {
+                        "department": "Presales",
+                        "location": "Paris"
+                    },
+                    "synonyms": [],
+                    "value": "Sales Engineer"
+                }
+            ],
+            "lookup-strategy": "keywords",
+            "name": "Job"
+        },
+        {
+            "data": [
+                {
+                    "metadata": {
+                        "leaveCharityDays": 0,
+                        "leaveDays": 5
+                    },
+                    "synonyms": [],
+                    "value": "Drew"
+                },
+                {
+                    "metadata": {
+                        "leaveCharityDays": 2,
+                        "leaveDays": 14
+                    },
+                    "synonyms": [],
+                    "value": "Ali"
+                }
+            ],
+            "lookup-strategy": "keywords",
+            "name": "Employee"
+        },
+        {
+            "data": [
+                {
+                    "synonyms": [],
+                    "value": "Birthday"
+                },
+                {
+                    "synonyms": [],
+                    "value": "Charity"
+                },
+                {
+                    "synonyms": [],
+                    "value": "Mix"
+                },
+                {
+                    "synonyms": [],
+                    "value": "Vacation"
+                }
+            ],
+            "lookup-strategy": "keywords",
+            "name": "LeaveType"
+        }
+    ]
+}
