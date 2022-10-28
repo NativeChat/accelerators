@@ -55,6 +55,33 @@
                 }
             ]
         },
+        "getDistanceAndUnit": {
+            "type": "support",
+            "steps": [
+                {
+                    "entity-type": "Distance",
+                    "messages": [
+                        "In what range around {{#if ($has city)}}{{city.Title}}{{else}}your location{{/if}} should I search?"
+                    ],
+                    "type": "question",
+                    "entity": "distance",
+                    "display": {
+                        "type": "quick-reply"
+                    }
+                },
+                {
+                    "entity-type": "DistanceUnit",
+                    "messages": [
+                        "Please specify the range unit:"
+                    ],
+                    "type": "question",
+                    "entity": "unit",
+                    "display": {
+                        "type": "quick-reply"
+                    }
+                }
+            ]
+        },
         "byCity": {
             "type": "goal",
             "steps": [
@@ -75,26 +102,8 @@
                     }
                 },
                 {
-                    "entity-type": "Distance",
-                    "messages": [
-                        "In what range around {{city.Title}} should I search?"
-                    ],
-                    "type": "question",
-                    "entity": "distance",
-                    "display": {
-                        "type": "quick-reply"
-                    }
-                },
-                {
-                    "entity-type": "DistanceUnit",
-                    "messages": [
-                        "Please specify the range unit:"
-                    ],
-                    "type": "question",
-                    "entity": "unit",
-                    "display": {
-                        "type": "quick-reply"
-                    }
+                    "type": "conversation",
+                    "conversation": "getDistanceAndUnit"
                 },
                 {
                     "type": "webhook",
@@ -130,26 +139,8 @@
                     }
                 },
                 {
-                    "entity-type": "Distance",
-                    "messages": [
-                        "In what range around your location should I search?"
-                    ],
-                    "type": "question",
-                    "entity": "distance",
-                    "display": {
-                        "type": "quick-reply"
-                    }
-                },
-                {
-                    "entity-type": "DistanceUnit",
-                    "messages": [
-                        "Please specify the range unit:"
-                    ],
-                    "type": "question",
-                    "entity": "unit",
-                    "display": {
-                        "type": "quick-reply"
-                    }
+                    "type": "conversation",
+                    "conversation": "getDistanceAndUnit"
                 },
                 {
                     "type": "webhook",
