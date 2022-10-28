@@ -70,14 +70,14 @@
             "steps": [
                 {
                     "conditions": [
-                        "{{$eq showJobListAgain 'Yes'}}"
+                        "{{$has showJobListAgain}}",
+                        "{{showJobListAgain}}"
                     ],
                     "type": "conversation",
                     "conversation": "clearJobEntities"
                 },
                 {
                     "conditions": [
-                        "{{$eq userData undefined}}",
                         "{{$or ($eq smsSent true) ($eq smsSent undefined)}}"
                     ],
                     "type": "conversation",
@@ -136,37 +136,38 @@
                     "entity-type": "TaskId",
                     "messages": [
                         "What's the ID of the task you are looking for?"
-                    ]
-                },
-                {
-                    "conditions": [
-                        "{{$not ($has priorityFilter)}}",
-                        "{{$not ($has taskId)}}",
-                        "{{$not ($has location)}}"
                     ],
-                    "type": "webhook",
-                    "entity": "jobsList",
-                    "data-source": {
-                        "method": "GET",
-                        "endpoint": "https://api.demo.nativechat.com/v1/field-services/tasks",
-                        "headers": {
-                            "Authorization": "Basic ZGVtby11c2VyOmRlbW8tcGFzc3dvcmQ="
+                    "display": {
+                        "type": "quick-reply",
+                        "data-source": {
+                            "method": "GET",
+                            "headers": {
+                                "Authorization": "Basic ZGVtby11c2VyOmRlbW8tcGFzc3dvcmQ="
+                            },
+                            "endpoint": "https://api.demo.nativechat.com/v1/field-services/tasks",
+                            "selector": "$.*.Id"
                         }
-                    }
-                },
-                {
-                    "conditions": [
-                        "{{$has priorityFilter}}"
-                    ],
-                    "type": "webhook",
-                    "entity": "jobsList",
-                    "data-source": {
-                        "method": "GET",
-                        "endpoint": "https://api.demo.nativechat.com/v1/field-services/tasks",
-                        "headers": {
-                            "Authorization": "Basic ZGVtby11c2VyOmRlbW8tcGFzc3dvcmQ="
-                        },
-                        "selector": "$[?(@.Priority == '{{priorityFilter}}')]"
+                    },
+                    "reactions": {
+                        "validations": [
+                            {
+                                "type": "custom",
+                                "parameters": {
+                                    "condition": "{{$in taskId _response}}",
+                                    "data-source": {
+                                        "method": "GET",
+                                        "headers": {
+                                            "Authorization": "Basic ZGVtby11c2VyOmRlbW8tcGFzc3dvcmQ="
+                                        },
+                                        "endpoint": "https://api.demo.nativechat.com/v1/field-services/tasks",
+                                        "selector": "$.*.Id"
+                                    }
+                                },
+                                "error-message": [
+                                    "Please enter the ID of an existing task."
+                                ]
+                            }
+                        ]
                     }
                 },
                 {
@@ -200,14 +201,6 @@
                     }
                 },
                 {
-                    "conditions": [
-                        "{{$eq jobsList.HasError false}}",
-                        "{{$eq jobsList.Data.length 0}}"
-                    ],
-                    "type": "conversation",
-                    "conversation": "thankUser"
-                },
-                {
                     "type": "question",
                     "entity": "selectedJob",
                     "entity-type": "SelectedTask",
@@ -229,42 +222,6 @@
                             "This is what I found for you:"
                         ]
                     ]
-                },
-                {
-                    "conditions": [
-                        "{{$not ($has selectedJob)}}"
-                    ],
-                    "type": "question",
-                    "entity": "priorityFilter",
-                    "entity-type": "Priority",
-                    "messages": [
-                        "What priority tasks you want to see?"
-                    ],
-                    "display": {
-                        "type": "quick-reply",
-                        "data-source": {
-                            "entity": "Priority"
-                        }
-                    },
-                    "reactions": {
-                        "acknowledgements": [
-                            "Let's find these {{priorityFilter}} tasks..."
-                        ]
-                    }
-                },
-                {
-                    "conditions": [
-                        "{{$eq userData.HasError true}}"
-                    ],
-                    "type": "command",
-                    "command": "go-to clearSmsCodeEntities"
-                },
-                {
-                    "conditions": [
-                        "{{$eq selectedJob 'no'}}"
-                    ],
-                    "type": "conversation",
-                    "conversation": "thankUser"
                 },
                 {
                     "type": "webhook",
@@ -293,15 +250,14 @@
                 },
                 {
                     "type": "message",
+                    "conditions": [
+                        "{{shouldSubmitInterestInJob}}"
+                    ],
                     "messages": [
                         [
                             "Task {{selectedJob}} has been assigned to you."
                         ]
                     ]
-                },
-                {
-                    "type": "conversation",
-                    "conversation": "thankUser"
                 },
                 {
                     "conditions": [
@@ -315,21 +271,7 @@
                 },
                 {
                     "type": "conversation",
-                    "conditions": [
-                        "{{$eq showJobListAgain 'No'}}"
-                    ],
                     "conversation": "thankUser"
-                }
-            ]
-        },
-        "access": {
-            "type": "support",
-            "steps": [
-                {
-                    "type": "message",
-                    "messages": [
-                        "There are no special security and access instructions for {{selectedJob}}."
-                    ]
                 }
             ]
         },
@@ -428,10 +370,6 @@
                     "display": {
                         "type": "quick-reply"
                     }
-                },
-                {
-                    "type": "conversation",
-                    "conversation": "finish"
                 }
             ]
         },
@@ -454,9 +392,6 @@
             "type": "support",
             "steps": [
                 {
-                    "conditions": [
-                        "{{$eq ($has phoneNumber) false}}"
-                    ],
                     "type": "question",
                     "entity-type": "Text",
                     "entity": "phoneNumber",
@@ -466,12 +401,22 @@
                             "Before we go on, can you provide me your phone number so I can find your record with us.",
                             "The phone number should be in the format: XXX-XXX-XXXX."
                         ]
-                    ]
+                    ],
+                    "reactions": {
+                        "validations": [
+                            {
+                                "type": "regex",
+                                "parameters": {
+                                    "value": "\\d{3}\\-\\d{3}\\-\\d{4}"
+                                },
+                                "error-message": [
+                                    "Please enter a number in the mentioned format"
+                                ]
+                            }
+                        ]
+                    }
                 },
                 {
-                    "conditions": [
-                        "{{$eq ($has validationCode) false}}"
-                    ],
                     "type": "question",
                     "entity": "validationCode",
                     "entity-type": "Text",
@@ -487,32 +432,13 @@
             "steps": [
                 {
                     "type": "command",
-                    "command": "invalidate-entity selectedJob"
-                },
-                {
-                    "type": "command",
-                    "command": "invalidate-entity shouldSubmitInterestInJob"
-                },
-                {
-                    "type": "command",
-                    "command": "invalidate-entity selectedJobObject"
-                },
-                {
-                    "type": "command",
-                    "command": "invalidate-entity showJobListAgain"
-                }
-            ]
-        },
-        "clearSmsCodeEntities": {
-            "type": "support",
-            "steps": [
-                {
-                    "type": "command",
-                    "command": "invalidate-entity validationCode"
-                },
-                {
-                    "type": "command",
-                    "command": "invalidate-entity userData"
+                    "command": "invalidate-entity",
+                    "entities": [
+                        "selectedJob",
+                        "shouldSubmitInterestInJob",
+                        "selectedJobObject",
+                        "showJobListAgain"
+                    ]
                 }
             ]
         },
@@ -547,7 +473,10 @@
                     "is-explicit": true,
                     "entity-type": "SelectedTask",
                     "messages": [
-                        "You have 3 tasks assigned."
+                        [
+                            "You have 3 tasks assigned.",
+                            "Click on one to see details about it"
+                        ]
                     ],
                     "display": {
                         "type": "carousel",
@@ -583,13 +512,7 @@
                             "{{jobApplicationsSelectedTask}}",
                             "**Description:**<br>{{selectedJobApplication.0.description}}<br><br>**Contact details:**<br><img src=\"https://randomuser.me/api/portraits/women/88.jpg\" width=\"60\" height=\"60\"><br>{{selectedJobApplication.0.ContactPerson}} ({{selectedJobApplication.0.ContactPhone}})<br><br>**Directions:**<br>[See in Maps](https://www.google.com/maps/dir/Current+Location/{{selectedJobApplication.0.latitude}},{{selectedJobApplication.0.longitude}})"
                         ]
-                    ],
-                    "display": {
-                        "type": "quick-reply",
-                        "data": [
-                            "kk"
-                        ]
-                    }
+                    ]
                 },
                 {
                     "type": "command",
@@ -599,7 +522,6 @@
         }
     },
     "settings": {
-        "trusted-domains": [],
         "general-failure": [
             "We are experiencing technical difficulties at this moment."
         ],

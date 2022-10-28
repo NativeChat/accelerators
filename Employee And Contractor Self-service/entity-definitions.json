@@ -147,12 +147,6 @@
             "data": [
                 {
                     "expressions": [
-                        "Are there access restrictions?"
-                    ],
-                    "value": "access"
-                },
-                {
-                    "expressions": [
                         "Are you intelligent?",
                         "Are you useless?",
                         "Can you help me?",
@@ -314,28 +308,6 @@
             ],
             "lookup-strategy": "keywords",
             "name": "Resume"
-        },
-        {
-            "data": [
-                {
-                    "synonyms": [
-                        "high"
-                    ],
-                    "value": "High"
-                },
-                {
-                    "synonyms": [
-                        "urgent"
-                    ],
-                    "value": "Urgent"
-                },
-                {
-                    "synonyms": [],
-                    "value": "Low"
-                }
-            ],
-            "lookup-strategy": "keywords",
-            "name": "Priority"
         },
         {
             "data": [
