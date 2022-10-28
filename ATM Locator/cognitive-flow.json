@@ -156,7 +156,10 @@
                         ]
                     },
                     "type": "question",
-                    "entity": "date"
+                    "entity": "date",
+                    "display": {
+                        "type": "date-picker"
+                    }
                 },
                 {
                     "entity-type": "Time",
@@ -164,7 +167,14 @@
                         "At what time do you plan to stop by the office?"
                     ],
                     "type": "question",
-                    "entity": "time"
+                    "entity": "time",
+                    "display": {
+                        "type": "quick-reply",
+                        "data": [
+                            "11:00",
+                            "at noon"
+                        ]
+                    }
                 },
                 {
                     "type": "webhook",
@@ -173,7 +183,14 @@
                         "headers": {
                             "Authorization": "Basic ZGVtby11c2VyOmRlbW8tcGFzc3dvcmQ="
                         },
-                        "endpoint": "https://api.demo.nativechat.com/v1/atm-locator/offices/near-by?latitude={{location.latitude}}&longitude={{location.longitude}}&take=1&openOnly=true&date={{#if date}}{{date}}{{/if}}{{#if time}} {{time}}{{/if}}"
+                        "endpoint": "https://api.demo.nativechat.com/v1/atm-locator/offices/near-by",
+                        "payload": {
+                            "latitude": "{{location.latitude}}",
+                            "longitude": "{{location.longitude}}",
+                            "take": "1",
+                            "openOnly": "true",
+                            "date": "{{$date date 'YYYY-MM-DD'}}T{{time}}:00Z"
+                        }
                     },
                     "entity": "nearByOffices"
                 },
