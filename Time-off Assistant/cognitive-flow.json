@@ -1,0 +1,295 @@
+{
+    "conversations": {
+        "welcome": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "message",
+                    "messages": [
+                        "Hello. I am your HR chatbot."
+                    ]
+                },
+                {
+                    "type": "conversation",
+                    "conversation": "help",
+                    "conditions": [
+                        "{{$not ($has conversation) }}"
+                    ]
+                }
+            ]
+        },
+        "help": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "message",
+                    "messages": [
+                        [
+                            "If you get stuck, you can always restart our conversation by typing 'restart'"
+                        ]
+                    ],
+                    "conditions": [
+                        "{{$eq 1 2}}"
+                    ]
+                },
+                {
+                    "type": "message",
+                    "messages": [
+                        "Here is what I can do for you:"
+                    ],
+                    "display": {
+                        "type": "quick-reply",
+                        "data": [
+                            "Time Off Balance",
+                            "Book Time Off",
+                            "Booked Holidays"
+                        ]
+                    }
+                }
+            ]
+        },
+        "restart": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "message",
+                    "messages": [
+                        "Your conversation is restarted."
+                    ]
+                },
+                {
+                    "type": "conversation",
+                    "conversation": "welcome"
+                }
+            ]
+        },
+        "init-employee": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "question",
+                    "entity": "employeeId",
+                    "entity-type": "Number",
+                    "messages": [
+                        "Please enter your employee identification number"
+                    ],
+                    "conditions": [
+                        "{{$not ($has employee)}}"
+                    ]
+                },
+                {
+                    "type": "webhook",
+                    "entity": "employee",
+                    "data-source": {
+                        "endpoint": "https://api.demo.nativechat.com/v1/hr-assistant/user-info",
+                        "method": "GET",
+                        "headers": {
+                            "Authorization": "{{ employeeId }}"
+                        }
+                    }
+                }
+            ]
+        },
+        "time-off-balance": {
+            "type": "goal",
+            "steps": [
+                {
+                    "type": "conversation",
+                    "conversation": "init-employee"
+                },
+                {
+                    "type": "message",
+                    "messages": [
+                        [
+                            "OK, {{employee.name}}. Let me check that for you.",
+                            "Your balance is:",
+                            "{{employee.vacationDays}} days of Vacation",
+                            "{{employee.charityDays}} days of Charity",
+                            "{{employee.birthdayDays}} day for Birthday"
+                        ]
+                    ]
+                }
+            ]
+        },
+        "time-off-book": {
+            "type": "goal",
+            "steps": [
+                {
+                    "type": "conversation",
+                    "conversation": "init-employee"
+                },
+                {
+                    "type": "question",
+                    "entity": "leaveType",
+                    "entity-type": "LeaveType",
+                    "messages": [
+                        [
+                            "Hey {{employee.name}}. I can help you with that.",
+                            "What type of time off would you like to use book?"
+                        ]
+                    ],
+                    "display": {
+                        "type": "quick-reply"
+                    }
+                },
+                {
+                    "type": "question",
+                    "entity": "startDate",
+                    "entity-type": "Date",
+                    "entity-display": "{{$date startDate 'D MMM YYYY'}}",
+                    "messages": [
+                        "When would you like to start the time off?"
+                    ],
+                    "display": {
+                        "type": "date-picker",
+                        "title": "Pick the start date",
+                        "button-text": "Select"
+                    }
+                },
+                {
+                    "type": "question",
+                    "entity": "endDate",
+                    "entity-type": "Date",
+                    "entity-display": "{{$date endDate 'D MMM YYYY'}}",
+                    "messages": [
+                        "When should your time off end?"
+                    ],
+                    "display": {
+                        "type": "date-picker",
+                        "title": "Pick the end date",
+                        "button-text": "Select"
+                    },
+                    "reactions": {
+                        "acknowledgements": [
+                            "I see that you want to book time off from {{startDate}} to {{endDate}}."
+                        ],
+                        "validations": [
+                            {
+                                "type": "custom",
+                                "error-message": [
+                                    "The end date shouldn't be after the start date."
+                                ],
+                                "parameters": {
+                                    "condition": "{{$gte endDate startDate}}"
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "type": "entities-confirmation",
+                    "entity": "time-off-confirmation",
+                    "entities": [
+                        "startDate",
+                        "endDate",
+                        "leaveType"
+                    ],
+                    "messages": [
+                        "Just to confirm, is this the time period and leave type you want to book?"
+                    ]
+                },
+                {
+                    "type": "webhook",
+                    "entity": "workingDays",
+                    "data-source": {
+                        "endpoint": "https://api.demo.nativechat.com/v1/hr-assistant/working-days?startDate={{$encodeURI ($date startDate 'YYYY-MM-DDTHH:mm:ssZ')}}&endDate={{$encodeURI ($date endDate 'YYYY-MM-DDTHH:mm:ssZ')}}",
+                        "headers": {
+                            "Authorization": "Basic ZGVtby11c2VyOmRlbW8tcGFzc3dvcmQ="
+                        },
+                        "selector": "$.workingDays"
+                    }
+                },
+                {
+                    "type": "message",
+                    "messages": [
+                        [
+                            "You don't have enough of days to take.",
+                            "You only have {{employee.vacationDays}} days, while your request is for {{workingDays}} days.",
+                            "Please contact your manager or try again."
+                        ]
+                    ],
+                    "conditions": [
+                        "{{$not ($lte workingDays employee.vacationDays)}}"
+                    ]
+                },
+                {
+                    "type": "webhook",
+                    "entity": "bookedLeave",
+                    "data-source": {
+                        "endpoint": "https://api.demo.nativechat.com/v1/hr-assistant/time-off",
+                        "method": "POST",
+                        "headers": {
+                            "Authorization": "{{ employee.id }}"
+                        },
+                        "payload": {
+                            "type": "{{leaveType}}",
+                            "days": "{{workingDays}}",
+                            "startDate": "{{startDate}}",
+                            "endDate": "{{endDate}}"
+                        }
+                    },
+                    "messages": [
+                        [
+                            "Great {{employee.name}}, your time off is booked.",
+                            "{{workingDays}} days of {{leaveType}}: {{startDate}} — {{endDate}}"
+                        ]
+                    ],
+                    "conditions": [
+                        "{{$lte workingDays employee.vacationDays}}"
+                    ]
+                }
+            ]
+        },
+        "time-off-list-booked": {
+            "type": "goal",
+            "steps": [
+                {
+                    "type": "conversation",
+                    "conversation": "init-employee"
+                },
+                {
+                    "type": "webhook",
+                    "entity": "leave",
+                    "data-source": {
+                        "endpoint": "https://api.demo.nativechat.com/v1/hr-assistant/time-off",
+                        "method": "GET",
+                        "headers": {
+                            "Authorization": "{{ employee.id }}"
+                        }
+                    }
+                },
+                {
+                    "type": "message",
+                    "messages": [
+                        [
+                            "OK, {{employee.name}}. You have booked:",
+                            "{{#each leave.days}}{{days}} day(s) of {{type}}: {{$date startDate}} — {{$date endDate}}</newline>{{/each}}"
+                        ]
+                    ]
+                }
+            ]
+        }
+    },
+    "settings": {
+        "invalid-replies": [
+            "I am not sure I understood what you said."
+        ],
+        "general-failure": [
+            "We are experiencing technical difficulties at this moment."
+        ],
+        "previous-conversation-messages": [
+            "I am going back to the {{ conversationDisplayName }} now."
+        ],
+        "persist-entities": [
+            "bookedLeave"
+        ]
+    },
+    "commands": {
+        "NEXT-PAGE": [
+            "Next 5"
+        ],
+        "RESTART": [
+            "restart"
+        ]
+    }
+}

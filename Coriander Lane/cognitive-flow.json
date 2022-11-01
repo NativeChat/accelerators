@@ -1,0 +1,230 @@
+{
+    "conversations": {
+        "welcome": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "message",
+                    "messages": [
+                        [
+                            "Hello there, I am the virtual assistant of Coriander Lane."
+                        ]
+                    ]
+                },
+                {
+                    "conditions": [
+                        "{{$not ($has conversation)}}"
+                    ],
+                    "type": "conversation",
+                    "conversation": "help"
+                }
+            ]
+        },
+        "help": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "message",
+                    "messages": [
+                        [
+                            "I can help you find your Coriander Lane."
+                        ]
+                    ],
+                    "display": {
+                        "type": "quick-reply",
+                        "data": [
+                            "By City",
+                            "Near By"
+                        ]
+                    }
+                }
+            ]
+        },
+        "restart": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "message",
+                    "messages": [
+                        "Your conversation is restarted."
+                    ]
+                },
+                {
+                    "type": "conversation",
+                    "conversation": "welcome"
+                }
+            ]
+        },
+        "getDistanceAndUnit": {
+            "type": "support",
+            "steps": [
+                {
+                    "entity-type": "Distance",
+                    "messages": [
+                        "In what range around {{#if ($has city)}}{{city.Title}} {{else}}your location {{/if}}should I search?"
+                    ],
+                    "type": "question",
+                    "entity": "distance",
+                    "display": {
+                        "type": "quick-reply"
+                    }
+                },
+                {
+                    "entity-type": "DistanceUnit",
+                    "messages": [
+                        "Please specify the range unit:"
+                    ],
+                    "type": "question",
+                    "entity": "unit",
+                    "display": {
+                        "type": "quick-reply"
+                    }
+                }
+            ]
+        },
+        "byCity": {
+            "type": "goal",
+            "steps": [
+                {
+                    "entity-type": "City",
+                    "messages": [
+                        "What is the city for which you want to find a restaurant?"
+                    ],
+                    "type": "question",
+                    "entity": "city",
+                    "display": {
+                        "template": {
+                            "title": "{{Title}}"
+                        },
+                        "button-text": "Select",
+                        "type": "single-select",
+                        "title": "Select a city"
+                    }
+                },
+                {
+                    "type": "conversation",
+                    "conversation": "getDistanceAndUnit"
+                },
+                {
+                    "type": "webhook",
+                    "data-source": {
+                        "method": "GET",
+                        "headers": {
+                            "Content-Type": "application/json",
+                            "Cookie": "coords={ \"Latitude\":{{city.Address.Latitude}},\"Longitude\":{{city.Address.Longitude}} }"
+                        },
+                        "endpoint": "https://corianderlane.sitefinity.cloud/locations-api/GeoLocator/SearchLocationsWithinDistance/?Distance={{$encodeURI distance}}&SearchString={{$encodeURI city}}&DistanceUnit={{$encodeURI unit}}&SeeAll=false"
+                    },
+                    "entity": "restaurants"
+                },
+                {
+                    "type": "conversation",
+                    "conversation": "showRestaurants"
+                }
+            ]
+        },
+        "nearBy": {
+            "type": "goal",
+            "steps": [
+                {
+                    "type": "question",
+                    "entity": "location",
+                    "entity-type": "Location",
+                    "messages": [
+                        "Please select your location"
+                    ],
+                    "display": {
+                        "type": "location-picker",
+                        "title": "Share location"
+                    }
+                },
+                {
+                    "type": "conversation",
+                    "conversation": "getDistanceAndUnit"
+                },
+                {
+                    "type": "webhook",
+                    "data-source": {
+                        "method": "GET",
+                        "headers": {
+                            "Content-Type": "application/json",
+                            "Cookie": "coords={ \"Latitude\":{{location.latitude}},\"Longitude\":{{location.longitude}} }"
+                        },
+                        "endpoint": "https://corianderlane.sitefinity.cloud/locations-api/GeoLocator/SearchLocationsWithinDistance/?Distance={{$encodeURI distance}}"
+                    },
+                    "entity": "restaurants"
+                },
+                {
+                    "type": "conversation",
+                    "conversation": "showRestaurants"
+                }
+            ]
+        },
+        "showRestaurants": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "message",
+                    "conditions": [
+                        "{{$eq restaurants.length 0}}"
+                    ],
+                    "messages": [
+                        [
+                            "I cannot find a restaurant {{#if ($has city)}} in {{city}}{{else}} near your location{{/if}}."
+                        ]
+                    ]
+                },
+                {
+                    "type": "message",
+                    "conditions": [
+                        "{{$eq restaurants.length 1}}"
+                    ],
+                    "messages": [
+                        [
+                            "We have one restaurant{{#if ($has city)}} in {{city}}{{else}} near your location{{/if}}:",
+                            "{{#if ($not ($eq _system.channel.ProviderName 'facebook'))}}![{{city.Images.0.Title}}]({{restaurants.0.Images.0.ThumbnailUrl}} '{{city.Images.0.Title}}'){{/if}}",
+                            "*{{restaurants.0.Address.Street}}*\n*{{restaurants.0.Address.City}}, {{restaurants.0.Address.Zip}}*",
+                            "Working hours: *{{restaurants.0.Hours}}*",
+                            "{{#if ($not ($eq _system.channel.ProviderName 'facebook'))}}Here is how to get there [Open Map](https://www.google.com/maps/?q={{restaurants.0.Address.Latitude}},{{restaurants.0.Address.Longitude}} 'Show on map').{{/if}}",
+                            "{{#if ($eq _system.channel.ProviderName 'facebook')}}Here is how to get there https://www.google.com/maps/?q={{restaurants.0.Address.Latitude}},{{restaurants.0.Address.Longitude}}{{/if}}"
+                        ]
+                    ]
+                },
+                {
+                    "type": "message",
+                    "conditions": [
+                        "{{$gt restaurants.length 1}}"
+                    ],
+                    "messages": [
+                        [
+                            "We have {{restaurants.length}} in {{city}}:",
+                            "{{#forEach restaurants}}Address {{item.Address.Street}}, {{item.Address.City}}, {{item.Address.Zip}}. Working hours are {{item.Hours}} and here is how to get there https://www.google.com/maps/?q={{item.Address.Latitude}},{{item.Address.Longitude}}</newline>{{/forEach}}"
+                        ]
+                    ]
+                }
+            ]
+        }
+    },
+    "settings": {
+        "invalid-replies": [
+            "I am not sure I understood what you said."
+        ],
+        "general-failure": [
+            "We are experiencing technical difficulties at this moment."
+        ],
+        "previous-conversation-messages": [
+            "I am going back to the {{ conversationDisplayName }} now."
+        ]
+    },
+    "commands": {
+        "NEXT-PAGE": [
+            "Next 5"
+        ],
+        "PREVIOUS-PAGE": [
+            "Previous 5"
+        ],
+        "RESTART": [
+            "restart"
+        ]
+    }
+}

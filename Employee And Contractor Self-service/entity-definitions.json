@@ -1,0 +1,336 @@
+{
+    "entity-definitions": [
+        {
+            "data": [],
+            "dynamic-data": {
+                "data-source": {
+                    "endpoint": "https://api.demo.nativechat.com/v1/field-services/tasks",
+                    "headers": {
+                        "Authorization": "Basic ZGVtby11c2VyOmRlbW8tcGFzc3dvcmQ="
+                    },
+                    "method": "GET",
+                    "payload": {},
+                    "selector": ""
+                },
+                "synonym-templates": [],
+                "value-template": "{{ Name }}"
+            },
+            "lookup-strategy": "keywords",
+            "name": "SelectedTask"
+        },
+        {
+            "data": [
+                {
+                    "answers": [
+                        "Any time :)",
+                        "Just doing my job!",
+                        "You're welcome :)"
+                    ],
+                    "expressions": [
+                        "I appreciate that",
+                        "I know. thank you",
+                        "I really appreciate it",
+                        "awesome thanks",
+                        "awesome thx",
+                        "cool ty",
+                        "good to know. thanks",
+                        "great! thanks",
+                        "great, thank you",
+                        "many thanks",
+                        "nice thanks",
+                        "nice, thank you",
+                        "ok thanks",
+                        "ok thx",
+                        "okay, thank you",
+                        "sweet thanks",
+                        "thank you buddy",
+                        "thank you for showing me that",
+                        "thank you so much",
+                        "thank you very much",
+                        "thank you",
+                        "thank",
+                        "thanks a lot",
+                        "thanks again",
+                        "thanks bot",
+                        "thanks for the help",
+                        "thanks for your help",
+                        "thanks man",
+                        "thanks you too",
+                        "thanks",
+                        "thankssssssssss",
+                        "that's very kind",
+                        "thnaks",
+                        "thnx",
+                        "thx dude",
+                        "thx mate",
+                        "thx",
+                        "ty",
+                        "you saved my day",
+                        "you're good"
+                    ],
+                    "value": "thanks"
+                },
+                {
+                    "answers": [
+                        "Bye!",
+                        "Good bye!",
+                        "See you!"
+                    ],
+                    "expressions": [
+                        "++",
+                        "I go bye",
+                        "I have to go",
+                        "I said bye",
+                        "I'll see you",
+                        "I'm outa here",
+                        "See you later",
+                        "adieu",
+                        "adios",
+                        "au revoir",
+                        "awesome see ya",
+                        "best regards",
+                        "best wishes",
+                        "bye bye",
+                        "bye now",
+                        "bye",
+                        "bye+",
+                        "bye-bye",
+                        "byebye",
+                        "byeee",
+                        "byeeeee",
+                        "catch you later",
+                        "cia",
+                        "cool see you next time",
+                        "cya l8er",
+                        "cya",
+                        "excellent bye",
+                        "excellent bye-bye",
+                        "good night",
+                        "goodbye",
+                        "goodnight then",
+                        "got to go",
+                        "great bye",
+                        "gtg",
+                        "hasta la vista",
+                        "have a good day",
+                        "have a great weekend",
+                        "have a nice day",
+                        "later",
+                        "ok I have to go thanks",
+                        "ok, bye",
+                        "see u",
+                        "see ya",
+                        "see you soon",
+                        "see you",
+                        "see yu",
+                        "so long",
+                        "talk to you soon",
+                        "tciao"
+                    ],
+                    "value": "goodbye"
+                },
+                {
+                    "answers": [
+                        "For all indoor work full PPE (personal protective equipment) is mandatory."
+                    ],
+                    "expressions": [
+                        "Should I wear face mask?"
+                    ],
+                    "ssmlAnswers": [],
+                    "value": "ppe"
+                }
+            ],
+            "lookup-strategy": "QnA",
+            "name": "SmallTalk"
+        },
+        {
+            "data": [
+                {
+                    "expressions": [
+                        "Are you intelligent?",
+                        "Are you useless?",
+                        "Can you help me?",
+                        "Commands",
+                        "Help me",
+                        "Help me, please.",
+                        "Help",
+                        "How can I use you?",
+                        "How can you help me?",
+                        "I am lost",
+                        "I don't know what to do",
+                        "I need some assistance",
+                        "I need some help !",
+                        "I want to know more about you",
+                        "Please help me",
+                        "Show me what you do",
+                        "What are my options?",
+                        "What are you built for?",
+                        "What are you doing?",
+                        "What are your abilities?",
+                        "What can I say?",
+                        "What can you do?",
+                        "What can you do?",
+                        "What can you tell me?",
+                        "What do you do?",
+                        "What makes you unique?",
+                        "What's your purpose?",
+                        "What's your utility?",
+                        "You're useless.",
+                        "are you useful?",
+                        "assist me",
+                        "could you help me",
+                        "give me help",
+                        "help please?",
+                        "how does this work?",
+                        "how to",
+                        "i am confused",
+                        "i cant find the way i need help",
+                        "i need help",
+                        "list help",
+                        "menu",
+                        "more help",
+                        "need guidance",
+                        "need some guidance",
+                        "not sure what to do here",
+                        "show help",
+                        "stop",
+                        "what do you know to do?",
+                        "what is this",
+                        "what is your usage",
+                        "what should I do?",
+                        "what the bot knows to do?",
+                        "who are you?"
+                    ],
+                    "value": "help"
+                },
+                {
+                    "expressions": [
+                        "Can we reset the conversation?",
+                        "Can we start over?",
+                        "Forget about it, reset",
+                        "Forget, restart",
+                        "I want to reset the conversation",
+                        "I want to start again",
+                        "It is possible to restart the conversation?",
+                        "Let's restart",
+                        "Please reboot",
+                        "Reboot the flow",
+                        "can we start again?",
+                        "let's do it again",
+                        "reset conversation",
+                        "reset",
+                        "restart conversation",
+                        "restart",
+                        "restart, plase",
+                        "start again"
+                    ],
+                    "value": "restart"
+                },
+                {
+                    "expressions": [
+                        "Can you find me a new job",
+                        "I am looking for a new job",
+                        "details about KD674",
+                        "do you have job for me?",
+                        "find jobs",
+                        "find more tasks",
+                        "find work",
+                        "new job",
+                        "show me KD674",
+                        "show me urgent jobs",
+                        "what can I work on?",
+                        "work nearby"
+                    ],
+                    "value": "findJobs"
+                },
+                {
+                    "expressions": [
+                        "Log time & progress",
+                        "Log time on another task",
+                        "log time",
+                        "start work on this"
+                    ],
+                    "value": "logWork"
+                },
+                {
+                    "expressions": [
+                        "My applications",
+                        "My to-do",
+                        "What should i do today?"
+                    ],
+                    "value": "jobApplications"
+                },
+                {
+                    "expressions": [
+                        "finish"
+                    ],
+                    "value": "finish"
+                },
+                {
+                    "expressions": [
+                        "pause"
+                    ],
+                    "value": "pause"
+                },
+                {
+                    "expressions": [
+                        "resume"
+                    ],
+                    "value": "resume"
+                }
+            ],
+            "lookup-strategy": "trait",
+            "name": "Conversation"
+        },
+        {
+            "data": [
+                {
+                    "metadata": {},
+                    "synonyms": [],
+                    "value": "⏸ pause"
+                },
+                {
+                    "metadata": {},
+                    "synonyms": [],
+                    "value": "✅ finish"
+                }
+            ],
+            "lookup-strategy": "keywords",
+            "name": "NextConversation"
+        },
+        {
+            "data": [
+                {
+                    "metadata": {},
+                    "synonyms": [],
+                    "value": "▶ resume"
+                }
+            ],
+            "lookup-strategy": "keywords",
+            "name": "Resume"
+        },
+        {
+            "data": [
+                {
+                    "synonyms": [
+                        "near me"
+                    ],
+                    "value": "nearby"
+                },
+                {
+                    "synonyms": [],
+                    "value": "task Id"
+                }
+            ],
+            "lookup-strategy": "keywords",
+            "name": "Filter"
+        },
+        {
+            "data": {
+                "pattern": "^[A-Z]{2}[0-9]{3}$"
+            },
+            "lookup-strategy": "regex",
+            "name": "TaskId"
+        }
+    ]
+}

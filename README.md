@@ -1,2 +1,2 @@
-# accelerators
+# NativeChat accelerators
 NativeChat accelerators.

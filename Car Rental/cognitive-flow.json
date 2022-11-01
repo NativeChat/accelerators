@@ -1,0 +1,398 @@
+{
+    "conversations": {
+        "rent-car": {
+            "type": "goal",
+            "steps": [
+                {
+                    "type": "message",
+                    "messages": [
+                        "Great, let me help you find a car for you."
+                    ],
+                    "conditions": [
+                        "{{$not ($has startDate)}}"
+                    ]
+                },
+                {
+                    "type": "question",
+                    "entity": "startDate",
+                    "entity-type": "Date",
+                    "messages": [
+                        "When would you like to pick up the car?"
+                    ],
+                    "display": {
+                        "type": "date-picker",
+                        "title": "Find pick-up date",
+                        "button-text": "Select"
+                    }
+                },
+                {
+                    "type": "question",
+                    "entity": "endDate",
+                    "entity-type": "Date",
+                    "messages": [
+                        "When would you like to drop off the car?"
+                    ],
+                    "display": {
+                        "type": "date-picker",
+                        "title": "Find drop-off date",
+                        "button-text": "Select"
+                    },
+                    "reactions": {
+                        "validations": [
+                            {
+                                "type": "custom",
+                                "parameters": {
+                                    "condition": "{{$gt endDate startDate}}"
+                                },
+                                "error-message": [
+                                    "The drop-off date ({{endDate}}) cannot be before the pick-up date ({{startDate}})."
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "type": "question",
+                    "entity": "country",
+                    "entity-type": "Country",
+                    "messages": [
+                        "Which country are you traveling to?"
+                    ],
+                    "display": {
+                        "type": "quick-reply"
+                    },
+                    "reactions": {
+                        "acknowledgements": [
+                            "Cool, I see you picked {{country}}.",
+                            "I understand that you need a car in {{country}}."
+                        ],
+                        "ambiguities": [
+                            "You mentioned these countries. Which country do you need a car for?"
+                        ],
+                        "suggestions": [
+                            "I see you tend to rent cars in {{country}}. Do you need a car in {{country}}?",
+                            "Based on your previous choices. Would you like a car in {{country}}?"
+                        ]
+                    },
+                    "conditions": [
+                        "{{$not ($has city)}}"
+                    ]
+                },
+                {
+                    "type": "question",
+                    "entity": "city",
+                    "entity-type": "City",
+                    "messages": [
+                        "In which city are you looking for a car?"
+                    ],
+                    "display": {
+                        "type": "single-select",
+                        "title": "Find a city",
+                        "button-text": "Select this city",
+                        "data-source": {
+                            "endpoint": "https://api.demo.nativechat.com/v1/car-rental/offices?country={{country}}",
+                            "method": "GET",
+                            "headers": {
+                                "Authorization": "Basic ZGVtby11c2VyOmRlbW8tcGFzc3dvcmQ="
+                            }
+                        },
+                        "template": {
+                            "title": "{{name}}",
+                            "subtitle": "{{country}}",
+                            "value": "{{name}}",
+                            "image": "https://www.countryflags.com/wp-content/uploads/{{ $lowercase country }}-flag-png-large.png"
+                        }
+                    },
+                    "reactions": {
+                        "acknowledgements": [
+                            "I see you want one of our cars in {{city}}",
+                            "We should have a car for you in {{city}}"
+                        ],
+                        "validations": [
+                            {
+                                "type": "custom",
+                                "parameters": {
+                                    "condition": "{{$or ($not ($has country)) ($eq city.country country)}}"
+                                },
+                                "error-message": [
+                                    "{{city}} is not in {{country}}. Please select a city in {{country}}."
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "type": "question",
+                    "entity": "car",
+                    "entity-type": "Car",
+                    "messages": [
+                        "What car would you like?"
+                    ],
+                    "display": {
+                        "type": "carousel",
+                        "title": "Find a car",
+                        "button-text": "Select this car",
+                        "data-source": {
+                            "endpoint": "https://api.demo.nativechat.com/v1/car-rental/cars",
+                            "method": "GET",
+                            "headers": {
+                                "Authorization": "Basic ZGVtby11c2VyOmRlbW8tcGFzc3dvcmQ="
+                            }
+                        },
+                        "template": {
+                            "title": "{{name}}",
+                            "subtitle": "{{$currency price 'USD'}}",
+                            "image": "{{imageUrl}}"
+                        }
+                    },
+                    "reactions": {
+                        "validations": [
+                            {
+                                "type": "custom",
+                                "parameters": {
+                                    "condition": "{{$in car.id _response}}",
+                                    "data-source": {
+                                        "endpoint": "https://api.demo.nativechat.com/v1/car-rental/available-cars",
+                                        "method": "POST",
+                                        "headers": {
+                                            "Authorization": "Basic ZGVtby11c2VyOmRlbW8tcGFzc3dvcmQ="
+                                        },
+                                        "payload": {
+                                            "city": "{{city}}"
+                                        },
+                                        "selector": "$.cars[:].carID"
+                                    }
+                                },
+                                "error-message": [
+                                    "Unfortunately, {{car}} is not available in {{city}}. Try another car."
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "type": "question",
+                    "entity": "email",
+                    "entity-type": "Text",
+                    "messages": [
+                        "One more thing, what's your email?"
+                    ],
+                    "reactions": {
+                        "suggestions": [
+                            "Hey, {{email}} is that you?"
+                        ],
+                        "validations": [
+                            {
+                                "type": "email",
+                                "error-message": [
+                                    "Please enter a valid email"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "type": "webhook",
+                    "entity": "quote",
+                    "data-source": {
+                        "endpoint": "https://api.demo.nativechat.com/v1/car-rental/get-quote",
+                        "method": "POST",
+                        "headers": {
+                            "Authorization": "Basic ZGVtby11c2VyOmRlbW8tcGFzc3dvcmQ="
+                        },
+                        "payload": {
+                            "car": "{{car}}",
+                            "pickUpDate": "{{$date startDate 'YYYY-MM-DDTHH:mm:ssZ'}}",
+                            "dropOffDate": "{{$date endDate 'YYYY-MM-DDTHH:mm:ssZ'}}"
+                        }
+                    }
+                },
+                {
+                    "type": "confirmation",
+                    "entity": "wantsToBook",
+                    "messages": [
+                        [
+                            "Here is the summary of your order:",
+                            "Car: {{car}}",
+                            "Price per day: {{$currency car.price 'USD'}}",
+                            "{{ quote.days }} day(s): from  {{$date startDate 'D MMM YYYY'}} to {{$date endDate 'D MMM YYYY'}}",
+                            "Total price {{$currency quote.price 'USD'}}.",
+                            "Would you like to go ahead and book it?"
+                        ]
+                    ]
+                },
+                {
+                    "type": "message",
+                    "messages": [
+                        "I understand. I will cancel the quote now."
+                    ],
+                    "conditions": [
+                        "{{$not wantsToBook}}"
+                    ]
+                },
+                {
+                    "type": "webhook",
+                    "entity": "order-response",
+                    "data-source": {
+                        "endpoint": "https://api.demo.nativechat.com/v1/car-rental/book-car",
+                        "method": "POST",
+                        "headers": {
+                            "Authorization": "Basic ZGVtby11c2VyOmRlbW8tcGFzc3dvcmQ="
+                        },
+                        "payload": {
+                            "pickUpDate": "{{$date startDate 'YYYY-MM-DDTHH:mm:ssZ'}}",
+                            "dropOffDate": "{{$date endDate 'YYYY-MM-DDTHH:mm:ssZ'}}",
+                            "car": "{{car}}",
+                            "price": "{{car.price}}",
+                            "city": "{{city}}",
+                            "email": "{{email}}"
+                        }
+                    },
+                    "messages": [
+                        "Your car is booked. Your booking reference is {{order-response.bookingRef}}"
+                    ],
+                    "conditions": [
+                        "{{wantsToBook}}"
+                    ]
+                }
+            ]
+        },
+        "drop-off-location": {
+            "type": "goal",
+            "steps": [
+                {
+                    "type": "question",
+                    "entity": "location",
+                    "entity-type": "Location",
+                    "messages": [
+                        "Where did you leave the car?",
+                        "Where can we find the car?",
+                        "Can you show us on the location of the car on the map?"
+                    ],
+                    "display": {
+                        "type": "location-picker",
+                        "title": "Pick a location",
+                        "button-text": "The car is here"
+                    }
+                },
+                {
+                    "type": "question",
+                    "entity": "carPicture",
+                    "entity-type": "File",
+                    "messages": [
+                        "Can you take a picture of where you parked the car?"
+                    ],
+                    "reactions": {
+                        "validations": [
+                            {
+                                "type": "custom",
+                                "parameters": {
+                                    "condition": "{{$in \"car\" carPicture.labels}}"
+                                },
+                                "error-message": [
+                                    "I do enjoy pictures of {{carPicture.labels.[0]}} but I'd like a picture of the parked car"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "type": "message",
+                    "messages": [
+                        [
+                            "Thank you.",
+                            "We will pick up the car from: {{$json location}}",
+                            "Have a nice day"
+                        ]
+                    ]
+                }
+            ]
+        },
+        "what-weather": {
+            "type": "goal",
+            "steps": [
+                {
+                    "type": "message",
+                    "messages": [
+                        "It is sunny",
+                        "It rains",
+                        "It snows"
+                    ]
+                }
+            ]
+        },
+        "welcome": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "message",
+                    "messages": [
+                        "This is a welcome conversation for your chatbot."
+                    ]
+                },
+                {
+                    "type": "conversation",
+                    "conversation": "help",
+                    "conditions": [
+                        "{{$not ($has conversation) }}"
+                    ]
+                }
+            ]
+        },
+        "help": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "message",
+                    "messages": [
+                        [
+                            "If you get stuck, you can always restart our conversation by typing 'restart'",
+                            "Here is what I can do for you:"
+                        ]
+                    ],
+                    "display": {
+                        "type": "quick-reply",
+                        "data": [
+                            "I want to rent a car",
+                            "Drop off location"
+                        ]
+                    }
+                }
+            ]
+        },
+        "restart": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "message",
+                    "messages": [
+                        "Your conversation is restarted."
+                    ]
+                },
+                {
+                    "type": "conversation",
+                    "conversation": "welcome"
+                }
+            ]
+        }
+    },
+    "settings": {
+        "invalid-replies": [
+            "I am not sure I understood what you said."
+        ],
+        "general-failure": [
+            "We are experiencing technical difficulties at this moment."
+        ],
+        "previous-conversation-messages": [
+            "I am going back to the {{ conversationDisplayName }} now."
+        ]
+    },
+    "commands": {
+        "NEXT-PAGE": [
+            "Next 5"
+        ],
+        "RESTART": [
+            "restart"
+        ]
+    }
+}

@@ -1,0 +1,499 @@
+{
+    "conversations": {
+        "cancel": {
+            "type": "goal",
+            "steps": [
+                {
+                    "type": "message",
+                    "messages": [
+                        [
+                            "Unfortunately, for legal reasons, you must be at least 18 years old to use this assessment tool.",
+                            "Please have an adult help you if you'd like to try again.",
+                            "Goodbye."
+                        ]
+                    ]
+                }
+            ]
+        },
+        "help": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "message",
+                    "messages": [
+                        [
+                            "Please, answer the questions truthfully."
+                        ]
+                    ],
+                    "display": {
+                        "type": "quick-reply",
+                        "data": [
+                            "Start"
+                        ]
+                    }
+                }
+            ]
+        },
+        "assessment": {
+            "type": "goal",
+            "steps": [
+                {
+                    "entity-type": "Number",
+                    "messages": [
+                        "What is your age?"
+                    ],
+                    "type": "question",
+                    "entity": "age",
+                    "reactions": {
+                        "validations": [
+                            {
+                                "type": "range",
+                                "parameters": {
+                                    "min": 1,
+                                    "max": 140
+                                },
+                                "error-message": [
+                                    "Invalid age."
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "conditions": [
+                        "{{$lt age 18}}"
+                    ],
+                    "type": "command",
+                    "command": "go-to cancel"
+                },
+                {
+                    "messages": [
+                        "Have you been in contact with someone known to have coronavirus also known as COVID-19?"
+                    ],
+                    "type": "confirmation",
+                    "entity": "covidContact"
+                },
+                {
+                    "messages": [
+                        "Have you been told by a public health official or your employer you may have been exposed to coronavirus also known as COVID-19?"
+                    ],
+                    "type": "confirmation",
+                    "entity": "covidExposure"
+                },
+                {
+                    "messages": [
+                        [
+                            "Got it. To evaluate you further, please answer these next 5 symptom-related questions.",
+                            "Have you started coughing within the past few days?"
+                        ]
+                    ],
+                    "type": "confirmation",
+                    "entity": "newCough"
+                },
+                {
+                    "conditions": [
+                        "{{newCough}}"
+                    ],
+                    "type": "command",
+                    "command": "go-to transfer"
+                },
+                {
+                    "messages": [
+                        "Do you have a fever that's 100.4 degrees Fahrenheit (38C) or higher?"
+                    ],
+                    "type": "confirmation",
+                    "entity": "fever"
+                },
+                {
+                    "conditions": [
+                        "{{fever}}"
+                    ],
+                    "type": "command",
+                    "command": "go-to transfer"
+                },
+                {
+                    "messages": [
+                        "Are you experiencing new shortness of breath?"
+                    ],
+                    "type": "confirmation",
+                    "entity": "shortnessBreath"
+                },
+                {
+                    "conditions": [
+                        "{{$and shortnessBreath ($gt age '60')}}"
+                    ],
+                    "type": "command",
+                    "command": "go-to transfer"
+                },
+                {
+                    "messages": [
+                        [
+                            "Just a couple more questions about recent symptoms.",
+                            "Are you experiencing new sore throat?"
+                        ]
+                    ],
+                    "type": "confirmation",
+                    "entity": "soreThroat"
+                },
+                {
+                    "conditions": [
+                        "{{soreThroat}}"
+                    ],
+                    "type": "command",
+                    "command": "go-to transfer"
+                },
+                {
+                    "messages": [
+                        "Do you have any muscle aches?"
+                    ],
+                    "type": "confirmation",
+                    "entity": "muscleAches"
+                },
+                {
+                    "conditions": [
+                        "{{muscleAches}}"
+                    ],
+                    "type": "command",
+                    "command": "go-to transfer"
+                },
+                {
+                    "type": "confirmation",
+                    "messages": [
+                        [
+                            "Finally, a quick review of your health history.",
+                            "Have you recently been in a skilled nursing facility, like a nursing home?"
+                        ]
+                    ],
+                    "entity": "nurseFacility"
+                },
+                {
+                    "conditions": [
+                        "{{nurseFacility}}",
+                        "{{shortnessBreath}}"
+                    ],
+                    "type": "command",
+                    "command": "go-to transfer"
+                },
+                {
+                    "messages": [
+                        "Do you have any conditions such as Congestive Heart Disease, Kidney Disease, Liver Disease or Lung Disease?"
+                    ],
+                    "type": "confirmation",
+                    "entity": "heartConditions"
+                },
+                {
+                    "conditions": [
+                        "{{heartConditions}}",
+                        "{{shortnessBreath}}"
+                    ],
+                    "type": "command",
+                    "command": "go-to transfer"
+                },
+                {
+                    "type": "confirmation",
+                    "messages": [
+                        "Do you have a weakened immune system such as patients that have had a transplant or are receiving chemotherapy? "
+                    ],
+                    "entity": "immunocompromised"
+                },
+                {
+                    "conditions": [
+                        "{{immunocompromised}}",
+                        "{{shortnessBreath}}"
+                    ],
+                    "type": "command",
+                    "command": "go-to transfer"
+                },
+                {
+                    "conditions": [
+                        "{{$not immunocompromised}}"
+                    ],
+                    "type": "message",
+                    "messages": [
+                        [
+                            "Based on your responses, the best thing to do is to continue monitoring how you feel, and practice good hand hygiene and social distancing.",
+                            "If you develop additional symptoms, you can use this tool again or contact your doctor by phone or eCare before coming to a clinic or hospital.",
+                            "You may also contact the Virtual Clinic or schedule a telehealth visit through eCare.",
+                            "Goodbye."
+                        ]
+                    ]
+                }
+            ]
+        },
+        "contactOperator": {
+            "type": "goal",
+            "steps": [
+                {
+                    "type": "message",
+                    "messages": [
+                        "Please call 123-456-7890 to arrange an appointment with our staff. 24/7 service."
+                    ]
+                }
+            ]
+        },
+        "transfer": {
+            "type": "support",
+            "steps": [
+                {
+                    "entity-type": "Text",
+                    "messages": [
+                        [
+                            "Based on your symptoms, it's important that you be evaluated further."
+                        ]
+                    ],
+                    "type": "question",
+                    "entity": "transfer",
+                    "display": {
+                        "type": "quick-reply",
+                        "data": [
+                            "Schedule an appointment"
+                        ]
+                    }
+                }
+            ]
+        },
+        "restart": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "message",
+                    "messages": [
+                        "Your conversation is restarted."
+                    ]
+                },
+                {
+                    "type": "conversation",
+                    "conversation": "welcome"
+                }
+            ]
+        },
+        "welcome": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "message",
+                    "messages": [
+                        [
+                            "Welcome to the Progress COVID-19 assesment bot.",
+                            "If you are experiencing life-threatening symptoms, call 911 immediately.",
+                            "This tool is not intended to be a substitute for professional medical advice, diagnosis or treatment.",
+                            "Questions are designed to evaluate your condition and provide guidance."
+                        ]
+                    ]
+                },
+                {
+                    "type": "conversation",
+                    "conditions": [
+                        "{{$not ($has conversation) }}"
+                    ],
+                    "conversation": "help"
+                }
+            ]
+        },
+        "bookAppointment": {
+            "type": "goal",
+            "steps": [
+                {
+                    "entity-type": "Doctor",
+                    "display": {
+                        "type": "quick-reply"
+                    },
+                    "messages": [
+                        "What's the name of the doctor that you want to see?"
+                    ],
+                    "reactions": {
+                        "acknowledgements": [
+                            "I understand that you want to meet with {{doctor}}."
+                        ],
+                        "ambiguities": [
+                            "I am not sure I understand the doctor you want to meet. Can you select one of the following?"
+                        ],
+                        "suggestions": [
+                            "Do you want to visit {{doctor}}?",
+                            "Would you like to make an appointment for {{doctor}}?"
+                        ],
+                        "validations": [
+                            {
+                                "type": "custom",
+                                "error-message": [
+                                    "Unfortunately, {{doctor}} is not available."
+                                ],
+                                "parameters": {
+                                    "data-source": {
+                                        "method": "GET",
+                                        "headers": {
+                                            "Authorization": "Basic ZGVtby11c2VyOmRlbW8tcGFzc3dvcmQ="
+                                        },
+                                        "endpoint": "https://api.demo.nativechat.com/v1/book-a-doctor/doctor-days?doctorId={{$encodeURI doctor.ExternalId}}"
+                                    },
+                                    "condition": "{{$ne \"[]\" ($json _response)}}"
+                                }
+                            }
+                        ]
+                    },
+                    "entity-display": "{{doctor.Title}} {{doctor.FirstName}} {{doctor.LastName}}",
+                    "type": "question",
+                    "entity": "doctor"
+                },
+                {
+                    "entity-type": "Date",
+                    "messages": [
+                        "What date do you want to meet with {{doctor}}?"
+                    ],
+                    "reactions": {
+                        "validations": [
+                            {
+                                "type": "custom",
+                                "error-message": [
+                                    "Unfortunately, {{doctor}} is not available on {{date}}."
+                                ],
+                                "parameters": {
+                                    "data-source": {
+                                        "method": "GET",
+                                        "headers": {
+                                            "Authorization": "Basic ZGVtby11c2VyOmRlbW8tcGFzc3dvcmQ="
+                                        },
+                                        "endpoint": "https://api.demo.nativechat.com/v1/book-a-doctor/doctor-days?doctorId={{$encodeURI doctor.ExternalId}}"
+                                    },
+                                    "condition": "{{$in ($date date 'YYYY-MM-DD') _response}}"
+                                }
+                            }
+                        ]
+                    },
+                    "type": "question",
+                    "entity": "date",
+                    "display": {
+                        "type": "quick-reply",
+                        "data-source": {
+                            "method": "GET",
+                            "headers": {
+                                "Authorization": "Basic ZGVtby11c2VyOmRlbW8tcGFzc3dvcmQ="
+                            },
+                            "endpoint": "https://api.demo.nativechat.com/v1/book-a-doctor/doctor-days?doctorId={{$encodeURI doctor.ExternalId}}"
+                        }
+                    }
+                },
+                {
+                    "entity-type": "Time",
+                    "messages": [
+                        "What time do you want to meet {{doctor}} on {{date}}?"
+                    ],
+                    "reactions": {
+                        "validations": [
+                            {
+                                "type": "custom",
+                                "error-message": [
+                                    "Unfortunately, {{doctor}} is not available on {{date}} at {{time}}."
+                                ],
+                                "parameters": {
+                                    "data-source": {
+                                        "method": "GET",
+                                        "headers": {
+                                            "Authorization": "Basic ZGVtby11c2VyOmRlbW8tcGFzc3dvcmQ="
+                                        },
+                                        "endpoint": "https://api.demo.nativechat.com/v1/book-a-doctor/doctor-hours?doctorId={{$encodeURI doctor.ExternalId}}&date={{$encodeURI date}}"
+                                    },
+                                    "condition": "{{$in time _response}}"
+                                }
+                            }
+                        ]
+                    },
+                    "type": "question",
+                    "entity": "time",
+                    "display": {
+                        "type": "quick-reply",
+                        "data-source": {
+                            "method": "GET",
+                            "headers": {
+                                "Authorization": "Basic ZGVtby11c2VyOmRlbW8tcGFzc3dvcmQ="
+                            },
+                            "endpoint": "https://api.demo.nativechat.com/v1/book-a-doctor/doctor-hours?doctorId={{$encodeURI doctor.ExternalId}}&date={{$encodeURI date}}"
+                        }
+                    }
+                },
+                {
+                    "is-explicit": true,
+                    "entity-type": "Text",
+                    "messages": [
+                        "What are your first and last names?"
+                    ],
+                    "reactions": {
+                        "suggestions": [
+                            "Are you {{contactName}}?",
+                            "Is your name {{contactName}}?"
+                        ],
+                        "validations": [
+                            {
+                                "type": "regex",
+                                "error-message": [
+                                    "Please enter your first and last name."
+                                ],
+                                "parameters": {
+                                    "value": "(\\w.+\\s).+"
+                                }
+                            }
+                        ]
+                    },
+                    "type": "question",
+                    "entity": "contactName"
+                },
+                {
+                    "messages": [
+                        [
+                            "I am booking you an appointment for {{doctor}} on {{date}} at {{time}}.",
+                            "Please, confirm or select the value that you want to change."
+                        ]
+                    ],
+                    "type": "entities-confirmation",
+                    "entities": [
+                        "doctor",
+                        "date",
+                        "time"
+                    ],
+                    "entity": "confirmBookDoctor"
+                },
+                {
+                    "data-source": {
+                        "headers": {
+                            "Authorization": "Basic ZGVtby11c2VyOmRlbW8tcGFzc3dvcmQ="
+                        },
+                        "endpoint": "https://api.demo.nativechat.com/v1/book-a-doctor/appointment",
+                        "method": "POST",
+                        "payload": {
+                            "DoctorID": "{{doctor.ExternalId}}",
+                            "Time": "{{time}}",
+                            "PatientName": "{{contactName}}",
+                            "Date": "{{date}}"
+                        }
+                    },
+                    "messages": [
+                        "Congratulations. You have an appointment with {{doctor}} for {{date}} at {{time}}. See you soon!"
+                    ],
+                    "conditions": [
+                        "{{$eq confirmBookDoctor true}}"
+                    ],
+                    "type": "webhook"
+                }
+            ]
+        }
+    },
+    "settings": {
+        "invalid-replies": [
+            "I am not sure I understood what you said."
+        ],
+        "general-failure": [
+            "We are experiencing technical difficulties at this moment."
+        ],
+        "previous-conversation-messages": [
+            "I am going back to the {{ conversationDisplayName }} now."
+        ]
+    },
+    "commands": {
+        "NEXT-PAGE": [
+            "Next 5"
+        ],
+        "RESTART": [
+            "restart"
+        ]
+    }
+}

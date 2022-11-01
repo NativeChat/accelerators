@@ -1,0 +1,242 @@
+{
+    "conversations": {
+        "help": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "message",
+                    "messages": [
+                        [
+                            "I can help you find our local branches."
+                        ]
+                    ],
+                    "display": {
+                        "type": "quick-reply",
+                        "data": [
+                            "Nearby",
+                            "By City"
+                        ]
+                    }
+                }
+            ]
+        },
+        "welcome": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "message",
+                    "messages": [
+                        [
+                            "Hello {{user.FirstName}}, I am the virtual assistant of Village Bank London."
+                        ]
+                    ]
+                },
+                {
+                    "conditions": [
+                        "{{$not ($has conversation)}}"
+                    ],
+                    "type": "conversation",
+                    "conversation": "help"
+                }
+            ]
+        },
+        "restart": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "message",
+                    "messages": [
+                        "Your conversation is restarted."
+                    ]
+                },
+                {
+                    "type": "conversation",
+                    "conversation": "welcome"
+                }
+            ]
+        },
+        "byCity": {
+            "type": "goal",
+            "display-name": "by city",
+            "steps": [
+                {
+                    "entity-type": "City",
+                    "messages": [
+                        [
+                            "What is the city for which you want to find offices?"
+                        ]
+                    ],
+                    "entity-display": "{{city.Name}}",
+                    "type": "question",
+                    "entity": "city",
+                    "display": {
+                        "template": {
+                            "title": "{{Name}}"
+                        },
+                        "button-text": "Select",
+                        "type": "single-select",
+                        "title": "Select a city"
+                    }
+                },
+                {
+                    "type": "webhook",
+                    "data-source": {
+                        "method": "GET",
+                        "headers": {
+                            "Authorization": "Basic ZGVtby11c2VyOmRlbW8tcGFzc3dvcmQ="
+                        },
+                        "endpoint": "https://api.demo.nativechat.com/v1/atm-locator/offices?city={{$encodeURI city}}"
+                    },
+                    "entity": "offices"
+                },
+                {
+                    "type": "message",
+                    "conditions": [
+                        "{{$eq offices.length 0}}"
+                    ],
+                    "messages": [
+                        [
+                            "I cannot find an office in {{city}}."
+                        ]
+                    ]
+                },
+                {
+                    "type": "message",
+                    "conditions": [
+                        "{{$eq offices.length 1}}"
+                    ],
+                    "messages": [
+                        [
+                            "We have one office in {{city}}:",
+                            "{{#forEach offices}}Address {{item.Address}}. Working hours are {{item.WorkingHours}} and here is how to get there https://www.google.com/maps/?q={{item.Location.latitude}},{{item.Location.longitude}}</newline>{{/forEach}}"
+                        ]
+                    ]
+                },
+                {
+                    "type": "message",
+                    "conditions": [
+                        "{{$gt offices.length 1}}"
+                    ],
+                    "messages": [
+                        [
+                            "We have {{offices.length}} in {{city}}:",
+                            "{{#forEach offices}}Address {{item.Address}}. Working hours {{item.WorkingHours}}, located at https://www.google.com/maps/dir/{{location.latitude}},{{location.longitude}}/{{item.Location.latitude}},{{item.Location.longitude}}</newline>{{/forEach}}"
+                        ]
+                    ]
+                }
+            ]
+        },
+        "nearestOffice": {
+            "type": "goal",
+            "display-name": "nearby office",
+            "steps": [
+                {
+                    "entity-type": "Location",
+                    "messages": [
+                        [
+                            "In order to show you the nearest offices you need to share your current location with me."
+                        ]
+                    ],
+                    "entity-display": "{{location.latitude}} {{location.longitude}}",
+                    "type": "question",
+                    "entity": "location",
+                    "display": {
+                        "type": "location-picker",
+                        "title": "Share location"
+                    }
+                },
+                {
+                    "entity-type": "Date",
+                    "messages": [
+                        "For what date do you want me to show you open offices?"
+                    ],
+                    "reactions": {
+                        "acknowledgements": [
+                            "Let me see what's the best option for {{date}}."
+                        ]
+                    },
+                    "type": "question",
+                    "entity": "date",
+                    "display": {
+                        "type": "date-picker"
+                    }
+                },
+                {
+                    "entity-type": "Time",
+                    "messages": [
+                        "At what time do you plan to stop by the office?"
+                    ],
+                    "type": "question",
+                    "entity": "time",
+                    "display": {
+                        "type": "quick-reply",
+                        "data": [
+                            "11:00",
+                            "at noon"
+                        ]
+                    }
+                },
+                {
+                    "type": "webhook",
+                    "data-source": {
+                        "method": "POST",
+                        "headers": {
+                            "Authorization": "Basic ZGVtby11c2VyOmRlbW8tcGFzc3dvcmQ="
+                        },
+                        "endpoint": "https://api.demo.nativechat.com/v1/atm-locator/offices/near-by",
+                        "payload": {
+                            "latitude": "{{location.latitude}}",
+                            "longitude": "{{location.longitude}}",
+                            "take": "1",
+                            "openOnly": "true",
+                            "date": "{{$date date 'YYYY-MM-DD'}}T{{time}}:00Z"
+                        }
+                    },
+                    "entity": "nearByOffices"
+                },
+                {
+                    "type": "message",
+                    "conditions": [
+                        "{{$gt nearByOffices.length 0}}"
+                    ],
+                    "messages": [
+                        [
+                            "The closest offices of Village Bank is located {{$number nearByOffices.0.Kilometers precision=2 decimal='.'}} km from you",
+                            "{{nearByOffices.0.Address}}. Working hours are {{nearByOffices.0.WorkingHours}} and here is how to get there https://www.google.com/maps/dir/'{{location.latitude}},{{location.longitude}}'/'{{nearByOffices.0.Location.latitude}},{{nearByOffices.0.Location.longitude}}'"
+                        ]
+                    ]
+                },
+                {
+                    "type": "message",
+                    "conditions": [
+                        "{{$eq nearByOffices.length 0}}"
+                    ],
+                    "messages": [
+                        [
+                            "There are no opened offices nearby you on {{$date date 'dddd'}} at {{time}}."
+                        ]
+                    ]
+                }
+            ]
+        }
+    },
+    "settings": {
+        "general-failure": [
+            "We are experiencing technical difficulties at this moment."
+        ],
+        "previous-conversation-messages": [
+            "I am going back to the {{ conversationDisplayName }} now."
+        ],
+        "invalid-replies": [
+            "I am not sure I understood what you said."
+        ]
+    },
+    "commands": {
+        "NEXT-PAGE": [
+            "Next 5"
+        ],
+        "RESTART": [
+            "restart"
+        ]
+    }
+}

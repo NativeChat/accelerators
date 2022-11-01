@@ -1,0 +1,545 @@
+{
+    "conversations": {
+        "welcome": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "message",
+                    "messages": [
+                        [
+                            "Hello! 👋"
+                        ]
+                    ]
+                },
+                {
+                    "type": "conversation",
+                    "conditions": [
+                        "{{$not ($has conversation) }}"
+                    ],
+                    "conversation": "help"
+                }
+            ]
+        },
+        "restart": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "message",
+                    "messages": [
+                        "Your conversation is restarted."
+                    ]
+                },
+                {
+                    "type": "conversation",
+                    "conversation": "welcome"
+                }
+            ]
+        },
+        "help": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "command",
+                    "command": "invalidate-entity",
+                    "entities": [
+                        "jobApplicationsSelectedTask",
+                        "selectedJobApplication"
+                    ]
+                },
+                {
+                    "type": "message",
+                    "messages": [
+                        [
+                            "This is the RepairoFixer virtual assistant chatbot.",
+                            "Here is what I can do for you:"
+                        ]
+                    ],
+                    "display": {
+                        "type": "quick-reply",
+                        "data": [
+                            "Find work",
+                            "My to-do",
+                            "Log time & progress"
+                        ]
+                    }
+                }
+            ]
+        },
+        "findJobs": {
+            "type": "goal",
+            "steps": [
+                {
+                    "conditions": [
+                        "{{$has showJobListAgain}}",
+                        "{{showJobListAgain}}"
+                    ],
+                    "type": "conversation",
+                    "conversation": "clearJobEntities"
+                },
+                {
+                    "conditions": [
+                        "{{$or ($eq smsSent true) ($eq smsSent undefined)}}"
+                    ],
+                    "type": "conversation",
+                    "conversation": "identifyUser"
+                },
+                {
+                    "conditions": [
+                        "{{$not ($has taskId)}}",
+                        "{{$not ($has location)}}"
+                    ],
+                    "type": "question",
+                    "entity": "filterBy",
+                    "entity-type": "Filter",
+                    "messages": [
+                        [
+                            "There are 345 tasks available now.",
+                            "Can you provide more details about what you are looking for?"
+                        ]
+                    ],
+                    "display": {
+                        "type": "quick-reply"
+                    },
+                    "reactions": {
+                        "acknowledgements": [
+                            "Ok, let's find work {{filterBy}}."
+                        ]
+                    }
+                },
+                {
+                    "conditions": [
+                        "{{$eq filterBy 'nearby'}}"
+                    ],
+                    "type": "question",
+                    "entity": "location",
+                    "entity-type": "Location",
+                    "messages": [
+                        "Send us your location"
+                    ],
+                    "display": {
+                        "type": "location-picker",
+                        "title": "Pick a location",
+                        "button-text": "Submit"
+                    },
+                    "reactions": {
+                        "acknowledgements": [
+                            "I got your location. Thanks."
+                        ]
+                    }
+                },
+                {
+                    "conditions": [
+                        "{{$eq filterBy 'task Id'}}"
+                    ],
+                    "type": "question",
+                    "entity": "taskId",
+                    "entity-type": "TaskId",
+                    "messages": [
+                        "What's the ID of the task you are looking for?"
+                    ],
+                    "display": {
+                        "type": "quick-reply",
+                        "data-source": {
+                            "method": "GET",
+                            "headers": {
+                                "Authorization": "Basic ZGVtby11c2VyOmRlbW8tcGFzc3dvcmQ="
+                            },
+                            "endpoint": "https://api.demo.nativechat.com/v1/field-services/tasks",
+                            "selector": "$.*.Id"
+                        }
+                    },
+                    "reactions": {
+                        "validations": [
+                            {
+                                "type": "custom",
+                                "parameters": {
+                                    "condition": "{{$in taskId _response}}",
+                                    "data-source": {
+                                        "method": "GET",
+                                        "headers": {
+                                            "Authorization": "Basic ZGVtby11c2VyOmRlbW8tcGFzc3dvcmQ="
+                                        },
+                                        "endpoint": "https://api.demo.nativechat.com/v1/field-services/tasks",
+                                        "selector": "$.*.Id"
+                                    }
+                                },
+                                "error-message": [
+                                    "Please enter the ID of an existing task."
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "conditions": [
+                        "{{$has location}}"
+                    ],
+                    "type": "webhook",
+                    "entity": "jobsList",
+                    "data-source": {
+                        "method": "GET",
+                        "endpoint": "https://api.demo.nativechat.com/v1/field-services/tasks",
+                        "headers": {
+                            "Authorization": "Basic ZGVtby11c2VyOmRlbW8tcGFzc3dvcmQ="
+                        },
+                        "selector": "$[?(@.Priority == 'Urgent')]"
+                    }
+                },
+                {
+                    "conditions": [
+                        "{{$has taskId}}"
+                    ],
+                    "type": "webhook",
+                    "entity": "jobsList",
+                    "data-source": {
+                        "method": "GET",
+                        "endpoint": "https://api.demo.nativechat.com/v1/field-services/tasks",
+                        "headers": {
+                            "Authorization": "Basic ZGVtby11c2VyOmRlbW8tcGFzc3dvcmQ="
+                        },
+                        "selector": "$[?(@.Id == '{{taskId}}')]"
+                    }
+                },
+                {
+                    "type": "question",
+                    "entity": "selectedJob",
+                    "entity-type": "SelectedTask",
+                    "display": {
+                        "data-source": {
+                            "entity": "jobsList"
+                        },
+                        "template": {
+                            "title": "{{Name}}",
+                            "subtitle": "Priority: {{Priority}}, Est. duration: {{Duration}}h",
+                            "image": "https://maps.googleapis.com/maps/api/staticmap?center={{latitudee}},%20{{longitude}}&zoom=18&size=300x200&maptype=roadmap&markers=color:red%7Clabel:S%7C{{latitude}},%20{{longitude}}&key=__GOOGLE_API_KEY__"
+                        },
+                        "type": "carousel",
+                        "button-text": "See details",
+                        "title": "Show list"
+                    },
+                    "messages": [
+                        [
+                            "This is what I found for you:"
+                        ]
+                    ]
+                },
+                {
+                    "type": "webhook",
+                    "entity": "jobDetails",
+                    "data-source": {
+                        "method": "GET",
+                        "endpoint": "https://api.demo.nativechat.com/v1/field-services/tasks",
+                        "headers": {
+                            "Authorization": "Basic ZGVtby11c2VyOmRlbW8tcGFzc3dvcmQ="
+                        },
+                        "selector": "$[?(@.Name == '{{selectedJob}}')]"
+                    },
+                    "messages": [
+                        [
+                            "{{selectedJob}}",
+                            "**Description:**<br>{{jobDetails.0.description}}<br><br>**Contact details:**<br><img src=\"https://randomuser.me/api/portraits/women/88.jpg\" width=\"60\" height=\"60\"><br>{{jobDetails.0.ContactPerson}} ({{jobDetails.0.ContactPhone}})<br><br>**Directions:**<br>[See in Maps](https://www.google.com/maps/dir/Current+Location/{{jobDetails.0.latitude}},{{jobDetails.0.longitude}})"
+                        ]
+                    ]
+                },
+                {
+                    "type": "confirmation",
+                    "entity": "shouldSubmitInterestInJob",
+                    "messages": [
+                        "Do you accept this task?"
+                    ]
+                },
+                {
+                    "type": "message",
+                    "conditions": [
+                        "{{shouldSubmitInterestInJob}}"
+                    ],
+                    "messages": [
+                        [
+                            "Task {{selectedJob}} has been assigned to you."
+                        ]
+                    ]
+                },
+                {
+                    "conditions": [
+                        "{{$not shouldSubmitInterestInJob}}"
+                    ],
+                    "type": "confirmation",
+                    "entity": "showJobListAgain",
+                    "messages": [
+                        "Do you want to see the list of available tasks again to find another you might be interested in?"
+                    ]
+                },
+                {
+                    "type": "conversation",
+                    "conversation": "thankUser"
+                }
+            ]
+        },
+        "logWork": {
+            "type": "goal",
+            "steps": [
+                {
+                    "conditions": [
+                        "{{$has currentTaskFinished}}"
+                    ],
+                    "type": "command",
+                    "command": "invalidate-entity",
+                    "entities": [
+                        "selectedTask",
+                        "currentTask",
+                        "currentTaskFinished"
+                    ]
+                },
+                {
+                    "conditions": [
+                        "{{$not ($has currentTask)}}"
+                    ],
+                    "type": "question",
+                    "entity": "selectedTask",
+                    "entity-type": "SelectedTask",
+                    "is-explicit": true,
+                    "messages": [
+                        "Start work on:"
+                    ],
+                    "display": {
+                        "type": "quick-reply"
+                    }
+                },
+                {
+                    "type": "webhook",
+                    "entity": "currentTask",
+                    "data-source": {
+                        "method": "GET",
+                        "endpoint": "https://api.demo.nativechat.com/v1/field-services/tasks",
+                        "headers": {
+                            "Authorization": "Basic ZGVtby11c2VyOmRlbW8tcGFzc3dvcmQ="
+                        },
+                        "selector": "$[?(@.Name == '{{selectedTask}}')]"
+                    }
+                },
+                {
+                    "type": "question",
+                    "entity": "entityName",
+                    "entity-type": "NextConversation",
+                    "messages": [
+                        [
+                            "Ok, got it.",
+                            "Type 'pause' to take a break or 'finish' when you're done."
+                        ]
+                    ],
+                    "display": {
+                        "type": "quick-reply"
+                    }
+                }
+            ]
+        },
+        "pause": {
+            "type": "goal",
+            "steps": [
+                {
+                    "type": "question",
+                    "entity": "resume",
+                    "entity-type": "Resume",
+                    "is-explicit": true,
+                    "messages": [
+                        [
+                            "Stopping clock for {{currentTask.0.Name}}.",
+                            "Type 'resume' when you are ready."
+                        ]
+                    ],
+                    "display": {
+                        "type": "quick-reply"
+                    }
+                }
+            ]
+        },
+        "resume": {
+            "type": "goal",
+            "steps": [
+                {
+                    "type": "question",
+                    "entity": "nextConv",
+                    "entity-type": "NextConversation",
+                    "is-explicit": true,
+                    "messages": [
+                        [
+                            "Resuming work on {{currentTask.0.Name}}.",
+                            "Type 'pause' to take a break or 'finish' when you're done."
+                        ]
+                    ],
+                    "display": {
+                        "type": "quick-reply"
+                    }
+                }
+            ]
+        },
+        "finish": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "command",
+                    "command": "set-entity",
+                    "entity": "currentTaskFinished",
+                    "data": true
+                },
+                {
+                    "type": "command",
+                    "command": "go-to help"
+                }
+            ]
+        },
+        "identifyUser": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "question",
+                    "entity-type": "Text",
+                    "entity": "phoneNumber",
+                    "is-explicit": true,
+                    "messages": [
+                        [
+                            "Before we go on, can you provide me your phone number so I can find your record with us.",
+                            "The phone number should be in the format: XXX-XXX-XXXX."
+                        ]
+                    ],
+                    "reactions": {
+                        "validations": [
+                            {
+                                "type": "regex",
+                                "parameters": {
+                                    "value": "\\d{3}\\-\\d{3}\\-\\d{4}"
+                                },
+                                "error-message": [
+                                    "Please enter a number in the mentioned format"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "type": "question",
+                    "entity": "validationCode",
+                    "entity-type": "Text",
+                    "is-explicit": true,
+                    "messages": [
+                        "Please provide the code that you just received as a text message."
+                    ]
+                }
+            ]
+        },
+        "clearJobEntities": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "command",
+                    "command": "invalidate-entity",
+                    "entities": [
+                        "selectedJob",
+                        "shouldSubmitInterestInJob",
+                        "selectedJobObject",
+                        "showJobListAgain"
+                    ]
+                }
+            ]
+        },
+        "thankUser": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "message",
+                    "messages": [
+                        [
+                            "Thank you for using the RepairoFixer virtual assistant!",
+                            "I hope I was helpful, and if not that I can be helpful to you in the future."
+                        ]
+                    ],
+                    "display": {
+                        "type": "quick-reply",
+                        "data": [
+                            "Find more tasks",
+                            "My to-do",
+                            "Report time & progress"
+                        ]
+                    }
+                }
+            ]
+        },
+        "jobApplications": {
+            "type": "goal",
+            "steps": [
+                {
+                    "type": "question",
+                    "entity": "jobApplicationsSelectedTask",
+                    "is-explicit": true,
+                    "entity-type": "SelectedTask",
+                    "messages": [
+                        [
+                            "You have 3 tasks assigned.",
+                            "Click on one to see details about it"
+                        ]
+                    ],
+                    "display": {
+                        "type": "carousel",
+                        "data-source": {
+                            "method": "GET",
+                            "endpoint": "https://api.demo.nativechat.com/v1/field-services/tasks?limit=3",
+                            "headers": {
+                                "Authorization": "Basic ZGVtby11c2VyOmRlbW8tcGFzc3dvcmQ="
+                            }
+                        },
+                        "title": "Pick a task",
+                        "button-text": "See details",
+                        "template": {
+                            "title": "{{Name}}",
+                            "subtitle": "Priority: {{Priority}}, Est. duration {{Duration}}h",
+                            "image": "https://maps.googleapis.com/maps/api/staticmap?center={{latitude}},%20{{longitude}}&zoom=18&size=300x200&maptype=roadmap&markers=color:red%7Clabel:S%7C{{latitude}},%20{{longitude}}&key=__GOOGLE_API_KEY__"
+                        }
+                    }
+                },
+                {
+                    "type": "webhook",
+                    "entity": "selectedJobApplication",
+                    "data-source": {
+                        "method": "GET",
+                        "endpoint": "https://api.demo.nativechat.com/v1/field-services/tasks",
+                        "headers": {
+                            "Authorization": "Basic ZGVtby11c2VyOmRlbW8tcGFzc3dvcmQ="
+                        },
+                        "selector": "$[?(@.Name == '{{jobApplicationsSelectedTask}}')]"
+                    },
+                    "messages": [
+                        [
+                            "{{jobApplicationsSelectedTask}}",
+                            "**Description:**<br>{{selectedJobApplication.0.description}}<br><br>**Contact details:**<br><img src=\"https://randomuser.me/api/portraits/women/88.jpg\" width=\"60\" height=\"60\"><br>{{selectedJobApplication.0.ContactPerson}} ({{selectedJobApplication.0.ContactPhone}})<br><br>**Directions:**<br>[See in Maps](https://www.google.com/maps/dir/Current+Location/{{selectedJobApplication.0.latitude}},{{selectedJobApplication.0.longitude}})"
+                        ]
+                    ]
+                },
+                {
+                    "type": "command",
+                    "command": "go-to help"
+                }
+            ]
+        }
+    },
+    "settings": {
+        "general-failure": [
+            "We are experiencing technical difficulties at this moment."
+        ],
+        "previous-conversation-messages": [],
+        "persist-entities": [
+            "phoneNumber",
+            "validationCode"
+        ],
+        "invalid-replies": [
+            "I am not sure I understood what you said."
+        ]
+    },
+    "commands": {
+        "NEXT-PAGE": [
+            "Next 5"
+        ],
+        "RESTART": [
+            "restart"
+        ]
+    }
+}

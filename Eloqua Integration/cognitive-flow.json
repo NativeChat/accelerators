@@ -1,0 +1,144 @@
+{
+    "conversations": {
+        "welcome": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "message",
+                    "messages": [
+                        "You can ask me COVID-19 related questions."
+                    ]
+                },
+                {
+                    "type": "conversation",
+                    "conversation": "help",
+                    "conditions": [
+                        "{{$not ($has conversation) }}"
+                    ]
+                }
+            ]
+        },
+        "help": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "message",
+                    "messages": [
+                        [
+                            "If you get stuck, you can always restart our conversation by typing 'restart'"
+                        ]
+                    ]
+                },
+                {
+                    "type": "command",
+                    "command": "go-to askQuestion"
+                }
+            ]
+        },
+        "restart": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "message",
+                    "messages": [
+                        "Your conversation is restarted."
+                    ]
+                },
+                {
+                    "type": "conversation",
+                    "conversation": "welcome"
+                }
+            ]
+        },
+        "askQuestion": {
+            "type": "goal",
+            "steps": [
+                {
+                    "type": "question",
+                    "entity": "userQuestion",
+                    "entity-type": "Text",
+                    "is-explicit": false,
+                    "messages": [
+                        "What would you like to know?"
+                    ]
+                },
+                {
+                    "type": "question",
+                    "entity": "userEmail",
+                    "entity-type": "Text",
+                    "messages": [
+                        [
+                            "Unfortunately, I'm not trained to answer this question.",
+                            "Please enter your email address and our support agents will contact you."
+                        ]
+                    ],
+                    "reactions": {
+                        "validations": [
+                            {
+                                "type": "email",
+                                "error-message": [
+                                    "Please enter valid email"
+                                ]
+                            }
+                        ]
+                    }
+                },
+                {
+                    "type": "webhook",
+                    "entity": "eloquaIntegrationResult",
+                    "data-source": {
+                        "response": "full",
+                        "endpoint": "__ELOQUA_BLIND_FORM_SUBMIT_LINK__&email={{ $encodeURI userEmail }}&comments={{ $encodeURI userQuestion }}",
+                        "method": "GET"
+                    }
+                },
+                {
+                    "type": "message",
+                    "conditions": [
+                        "{{ $eq eloquaIntegrationResult.status 200 }}"
+                    ],
+                    "messages": [
+                        [
+                            "Your question '{{ userQuestion }}' was sent to our support agents.",
+                            "They will contact you on email {{ userEmail }}."
+                        ]
+                    ]
+                },
+                {
+                    "type": "message",
+                    "conditions": [
+                        "{{ $not ($eq eloquaIntegrationResult.status 200) }}"
+                    ],
+                    "messages": [
+                        [
+                            "We were not able to send your question to our support agents.",
+                            "Please try again later"
+                        ]
+                    ]
+                }
+            ]
+        }
+    },
+    "settings": {
+        "invalid-replies": [
+            "I am not sure I understood what you said."
+        ],
+        "general-failure": [
+            "We are experiencing technical difficulties at this moment."
+        ],
+        "previous-conversation-messages": [
+            "I am going back to the {{ conversationDisplayName }} now."
+        ]
+    },
+    "commands": {
+        "NEXT-PAGE": [
+            "Next 5"
+        ],
+        "PREVIOUS-PAGE": [
+            "Previous 5"
+        ],
+        "RESTART": [
+            "restart"
+        ]
+    }
+}
