@@ -61,7 +61,7 @@
                 {
                     "entity-type": "Distance",
                     "messages": [
-                        "In what range around {{#if ($has city)}}{{city.Title}}{{else}}your location{{/if}} should I search?"
+                        "In what range around {{#if ($has city)}}{{city.Title}} {{else}}your location {{/if}}should I search?"
                     ],
                     "type": "question",
                     "entity": "distance",
