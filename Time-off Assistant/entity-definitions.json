@@ -127,13 +127,6 @@
                 },
                 {
                     "expressions": [
-                        "Apply for job",
-                        "I want to apply for job"
-                    ],
-                    "value": "job-apply"
-                },
-                {
-                    "expressions": [
                         "Are you intelligent?",
                         "Are you useless?",
                         "Can you help me?",
@@ -235,66 +228,6 @@
             ],
             "lookup-strategy": "trait",
             "name": "Conversation"
-        },
-        {
-            "data": [
-                {
-                    "metadata": {
-                        "department": "Accounting",
-                        "location": "Paris"
-                    },
-                    "synonyms": [],
-                    "value": "Accountant"
-                },
-                {
-                    "metadata": {
-                        "department": "IT",
-                        "location": "Berlin"
-                    },
-                    "synonyms": [],
-                    "value": "Network Engineer"
-                },
-                {
-                    "metadata": {
-                        "department": "Marketing",
-                        "location": "Berlin"
-                    },
-                    "synonyms": [],
-                    "value": "Product Marketing"
-                },
-                {
-                    "metadata": {
-                        "department": "Presales",
-                        "location": "Paris"
-                    },
-                    "synonyms": [],
-                    "value": "Sales Engineer"
-                }
-            ],
-            "lookup-strategy": "keywords",
-            "name": "Job"
-        },
-        {
-            "data": [
-                {
-                    "metadata": {
-                        "leaveCharityDays": 0,
-                        "leaveDays": 5
-                    },
-                    "synonyms": [],
-                    "value": "Drew"
-                },
-                {
-                    "metadata": {
-                        "leaveCharityDays": 2,
-                        "leaveDays": 14
-                    },
-                    "synonyms": [],
-                    "value": "Ali"
-                }
-            ],
-            "lookup-strategy": "keywords",
-            "name": "Employee"
         },
         {
             "data": [
