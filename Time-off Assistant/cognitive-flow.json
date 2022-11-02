@@ -231,7 +231,7 @@
                     "messages": [
                         [
                             "Great {{employee.name}}, your time off is booked.",
-                            "{{workingDays}} days of {{leaveType}}: {{startDate}} — {{endDate}}"
+                            "{{workingDays}} days of {{leaveType}}: {{startDate}} - {{endDate}}"
                         ]
                     ],
                     "conditions": [
@@ -263,7 +263,7 @@
                     "messages": [
                         [
                             "OK, {{employee.name}}. You have booked:",
-                            "{{#each leave.days}}{{days}} day(s) of {{type}}: {{$date startDate}} — {{$date endDate}}</newline>{{/each}}"
+                            "{{#each leave.days}}{{days}} day(s) of {{type}}: {{$date startDate}} - {{$date endDate}}</newline>{{/each}}"
                         ]
                     ]
                 }
