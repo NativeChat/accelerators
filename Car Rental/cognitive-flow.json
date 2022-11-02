@@ -100,7 +100,7 @@
                             "title": "{{name}}",
                             "subtitle": "{{country}}",
                             "value": "{{name}}",
-                            "image": "https://www.countryflags.com/wp-content/uploads/{{ $lowercase country }}-flag-png-large.png"
+                            "image": "https://api.demo.nativechat.com/v1/resources/country-flag/{{ $lowercase country }}"
                         }
                     },
                     "reactions": {
@@ -280,7 +280,7 @@
                     "entity": "carPicture",
                     "entity-type": "File",
                     "messages": [
-                        "Can you take a picture of where you parked the car?"
+                        "Please attach a picture of where you parked the car"
                     ],
                     "reactions": {
                         "validations": [
