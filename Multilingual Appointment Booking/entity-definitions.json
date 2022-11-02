@@ -155,7 +155,7 @@
                         "dateDisplay": {
                             "title": "Choisissez la date"
                         },
-                        "dateMessage": "OK, encore une chose, quelle date?",
+                        "dateMessage": "OK, quelle date?",
                         "finalMessage": "Super, tout est prêt. Vous avez un rendez-vous.",
                         "helpMessage": "Voici ce que je peux faire pour vous:",
                         "helpQuickReply": "Planifier un rendez-vous",
@@ -180,7 +180,7 @@
                         "dateDisplay": {
                             "title": "Choose date"
                         },
-                        "dateMessage": "Okay, one more thing, which date?",
+                        "dateMessage": "Okay, which date?",
                         "finalMessage": "Great, all set. You have an appointment.",
                         "helpMessage": "This is what I can do for you:",
                         "helpQuickReply": "Schedule appointment",
