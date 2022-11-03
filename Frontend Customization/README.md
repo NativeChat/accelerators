@@ -25,7 +25,6 @@ var chatSettings = {
     session: {
         clear: true
     },
-    chatServerInstance: "staging-",
     css: [
         "https://nativechat.github.io/accelerators/resources/Frontend%20Customization/style.css"
     ]
