@@ -6,7 +6,7 @@
                 {
                     "type": "message",
                     "messages": [
-                        "You can ask me COVID-19 related questions."
+                        "Welcome to the Leads generation bot. I can help you sign up for the Marketing Live conference."
                     ]
                 },
                 {
@@ -25,13 +25,16 @@
                     "type": "message",
                     "messages": [
                         [
-                            "If you get stuck, you can always restart our conversation by typing 'restart'"
+                            "If you get stuck, you can always restart our conversation by typing 'restart'",
+                            "Here is what I can do for you:"
                         ]
-                    ]
-                },
-                {
-                    "type": "command",
-                    "command": "go-to askQuestion"
+                    ],
+                    "display": {
+                        "type": "quick-reply",
+                        "data": [
+                            "Sign up for the Marketing Live conference"
+                        ]
+                    }
                 }
             ]
         },
@@ -50,27 +53,53 @@
                 }
             ]
         },
-        "askQuestion": {
+        "sign-up-for-the-marketing-live-conference": {
             "type": "goal",
             "steps": [
                 {
-                    "type": "question",
-                    "entity": "userQuestion",
-                    "entity-type": "Text",
-                    "is-explicit": false,
+                    "type": "confirmation",
+                    "entity": "wantsToSignUp",
                     "messages": [
-                        "What would you like to know?"
+                        [
+                            "The Marketing Live conference is held from March 20 to March 21 in Sydney. It is targeted towards marketers.",
+                            "Do you want to sign up for the conference?"
+                        ]
+                    ]
+                },
+                {
+                    "type": "conversation",
+                    "conversation": "do-sign-up",
+                    "conditions": [
+                        "{{$eq wantsToSignUp true}}"
+                    ]
+                }
+            ]
+        },
+        "do-sign-up": {
+            "type": "support",
+            "steps": [
+                {
+                    "type": "question",
+                    "entity": "firstName",
+                    "entity-type": "Text",
+                    "messages": [
+                        "What is your first name?"
                     ]
                 },
                 {
                     "type": "question",
-                    "entity": "userEmail",
+                    "entity": "lastName",
                     "entity-type": "Text",
                     "messages": [
-                        [
-                            "Unfortunately, I'm not trained to answer this question.",
-                            "Please enter your email address and our support agents will contact you."
-                        ]
+                        "What is your last name?"
+                    ]
+                },
+                {
+                    "type": "question",
+                    "entity": "email",
+                    "entity-type": "Text",
+                    "messages": [
+                        "What is your email?"
                     ],
                     "reactions": {
                         "validations": [
@@ -84,13 +113,46 @@
                     }
                 },
                 {
+                    "type": "question",
+                    "entity": "company",
+                    "entity-type": "Text",
+                    "messages": [
+                        "What is the name of your company?"
+                    ]
+                },
+                {
+                    "type": "question",
+                    "entity": "role",
+                    "entity-type": "Text",
+                    "messages": [
+                        "What is your role at {{ company }}?"
+                    ]
+                },
+                {
+                    "type": "entities-confirmation",
+                    "entity": "isCorrect",
+                    "messages": [
+                        "Is your information correct?"
+                    ],
+                    "entities": [
+                        "firstName",
+                        "lastName",
+                        "email",
+                        "company",
+                        "role"
+                    ]
+                },
+                {
                     "type": "webhook",
                     "entity": "eloquaIntegrationResult",
                     "data-source": {
                         "response": "full",
-                        "endpoint": "__ELOQUA_BLIND_FORM_SUBMIT_LINK__&email={{ $encodeURI userEmail }}&comments={{ $encodeURI userQuestion }}",
+                        "endpoint": "__ELOQUA_BLIND_FORM_SUBMIT_LINK__&lastName={{ $encodeURI lastName }}&firstName={{ $encodeURI firstName }}&email={{ $encodeURI email }}&company={{ $encodeURI company }}&role={{ $encodeURI role }}",
                         "method": "GET"
-                    }
+                    },
+                    "conditions": [
+                        "{{$eq isCorrect true}}"
+                    ]
                 },
                 {
                     "type": "message",
@@ -99,8 +161,8 @@
                     ],
                     "messages": [
                         [
-                            "Your question '{{ userQuestion }}' was sent to our support agents.",
-                            "They will contact you on email {{ userEmail }}."
+                            "Thank you, '{{ firstName }}'! You are signed up for the Marketing Live conference.",
+                            "Our team contact you on email {{ userEmail }} with all details."
                         ]
                     ]
                 },
@@ -111,7 +173,7 @@
                     ],
                     "messages": [
                         [
-                            "We were not able to send your question to our support agents.",
+                            "We were not able to sign you up for the Marketing Live conference.",
                             "Please try again later"
                         ]
                     ]
