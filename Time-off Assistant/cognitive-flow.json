@@ -25,17 +25,9 @@
                     "type": "message",
                     "messages": [
                         [
-                            "If you get stuck, you can always restart our conversation by typing 'restart'"
+                            "If you get stuck, you can always restart our conversation by typing 'restart'",
+                            "Here is what I can do for you:"
                         ]
-                    ],
-                    "conditions": [
-                        "{{$eq 1 2}}"
-                    ]
-                },
-                {
-                    "type": "message",
-                    "messages": [
-                        "Here is what I can do for you:"
                     ],
                     "display": {
                         "type": "quick-reply",
@@ -203,13 +195,15 @@
                     "type": "message",
                     "messages": [
                         [
-                            "You don't have enough of days to take.",
-                            "You only have {{employee.vacationDays}} days, while your request is for {{workingDays}} days.",
+                            "You don't have enough days to take.",
+                            "You only have {{#if ($eq leaveType 'Birthday')}}{{employee.birthdayDays}}{{/if}}{{#if ($eq leaveType 'Charity')}}{{employee.charityDays}}{{/if}}{{#if ($eq leaveType 'Vacation')}}{{employee.vacationDays}}{{/if}} days, while your request is for {{workingDays}} days.",
                             "Please contact your manager or try again."
                         ]
                     ],
                     "conditions": [
-                        "{{$not ($lte workingDays employee.vacationDays)}}"
+                        "{{$or ($ne leaveType 'Vacation') ($gt workingDays employee.vacationDays)}}",
+                        "{{$or ($ne leaveType 'Charity') ($gt workingDays employee.charityDays)}}",
+                        "{{$or ($ne leaveType 'Birthday') ($gt workingDays employee.birthdayDays)}}"
                     ]
                 },
                 {
@@ -235,7 +229,9 @@
                         ]
                     ],
                     "conditions": [
-                        "{{$lte workingDays employee.vacationDays}}"
+                        "{{$or ($ne leaveType 'Vacation') ($lte workingDays employee.vacationDays)}}",
+                        "{{$or ($ne leaveType 'Charity') ($lte workingDays employee.charityDays)}}",
+                        "{{$or ($ne leaveType 'Birthday') ($lte workingDays employee.birthdayDays)}}"
                     ]
                 }
             ]
