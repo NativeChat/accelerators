@@ -195,7 +195,7 @@
                     "type": "message",
                     "messages": [
                         [
-                            "You don't have enough of days to take.",
+                            "You don't have enough days to take.",
                             "You only have {{#if ($eq leaveType 'Birthday')}}{{employee.birthdayDays}}{{/if}}{{#if ($eq leaveType 'Charity')}}{{employee.charityDays}}{{/if}}{{#if ($eq leaveType 'Vacation')}}{{employee.vacationDays}}{{/if}} days, while your request is for {{workingDays}} days.",
                             "Please contact your manager or try again."
                         ]
